@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "react": "^19.3.1",
+    "template": "^0.17.5",
+    "vite": "^8.3.4"
+  }
+}
