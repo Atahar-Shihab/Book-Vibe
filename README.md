@@ -13,7 +13,7 @@
 
 **An immersive, 3D/4D/5D cinematic open-access literature library, interactive reading analytics studio, and educational exploration portal.**
 
-[🌐 Explore Live Portal](https://book-vibe-shihab.vercel.app/) • [📖 Curated 30 Books](#-30-curated-real-world-educational-books) • [✨ Cinematic Features](#-cinematic-3d--5d-features) • [🔀 Git Workflow](#-git-workflow--pr-conventions) • [⚖️ Intellectual Property](#-intellectual-property--terms-of-use)
+[🌐 Explore Live Portal](https://book-vibe-shihab.vercel.app/) • [📖 Curated 30 Books](#-30-curated-real-world-educational-books) • [✨ Cinematic Features](#-cinematic-3d--5d-features) • [🔀 Git Workflow](#-git-workflow--pr-conventions) • [🙏 Acknowledgements](#-acknowledgements--attribution) • [⚖️ Intellectual Property](#-intellectual-property--terms-of-use)
 
 </div>
 
@@ -231,6 +231,14 @@ npm run build
 # Preview production build locally
 npm run preview
 ```
+
+---
+
+## 🙏 Acknowledgements & Attribution
+
+* **Foundational Curriculum**: Core concept and initial literature platform learning foundation inspired by [Programming Hero](https://web.programming-hero.com/).
+* **Engineering & Feature Expansion**: The 3D perspective bookshelf, procedural Web Audio soundscape synthesis (rain, fireplace, 10Hz binaural alpha beats, grandfather clock), 2,700-year historical galaxy timeline, scholar study journal with Markdown export, and active-recall 3D flashcards were independently architected, researched, and engineered using modern React 19 standards and AI pair programming.
+* **Public Domain Literature**: Classical texts, chapter excerpts, and open-access links curated from [Project Gutenberg](https://www.gutenberg.org/) and [Open Library](https://openlibrary.org/).
 
 ---
 
