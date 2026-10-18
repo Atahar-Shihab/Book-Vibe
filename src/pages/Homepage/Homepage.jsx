@@ -1,8 +1,10 @@
-import Banner from "../../components/Shared/Navbar/Homepage/Banner";
+import Banner from "../../components/Homepage/Banner";
+import AllBooks from "../../components/Homepage/AllBooks";
 const Homepage = () => {
     return (
-        <div>
+        <div className="my-12">
             <Banner/>
+            <AllBooks/>
         </div>
     );
 };
