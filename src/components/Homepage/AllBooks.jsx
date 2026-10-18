@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import BookCard from "../BookCard/BookCard";
 import VirtualBookShelf from "../BookShelf/VirtualBookShelf";
 import BookFlipModal from "../BookReader/BookFlipModal";
+import BookComparatorModal from "../BookComparator/BookComparatorModal";
 import LiteraryTrivia from "./LiteraryTrivia";
 import {
   LayoutGrid,
@@ -13,6 +14,7 @@ import {
   Sparkles,
   ArrowUp,
   Clock,
+  ArrowRightLeft,
 } from "lucide-react";
 
 const categories = [
@@ -35,6 +37,7 @@ const AllBooks = ({ externalSearch = "" }) => {
   const [sortBy, setSortBy] = useState("rating-desc");
   const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'shelf'
   const [selectedBookForFlip, setSelectedBookForFlip] = useState(null);
+  const [showComparator, setShowComparator] = useState(false);
   const [search, setSearch] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -206,6 +209,16 @@ const AllBooks = ({ externalSearch = "" }) => {
                 <span className="hidden sm:inline">3D Shelf</span>
               </button>
             </div>
+
+            {/* Compare Books Button */}
+            <button
+              onClick={() => setShowComparator(true)}
+              className="flex items-center gap-1.5 rounded-2xl border border-violet-200 bg-violet-50 hover:bg-violet-100 px-3 py-2 text-xs font-bold text-violet-700 transition shadow-xs"
+              title="Compare 2 Books Side-by-Side"
+            >
+              <ArrowRightLeft className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Compare</span>
+            </button>
           </div>
         </div>
 
@@ -346,6 +359,13 @@ const AllBooks = ({ externalSearch = "" }) => {
           onClose={() => setSelectedBookForFlip(null)}
         />
       )}
+
+      {/* Book Comparison Studio Modal */}
+      <BookComparatorModal
+        books={books}
+        isOpen={showComparator}
+        onClose={() => setShowComparator(false)}
+      />
     </div>
   );
 };
