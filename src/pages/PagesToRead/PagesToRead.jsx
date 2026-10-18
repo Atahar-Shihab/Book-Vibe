@@ -13,6 +13,7 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
+import AnnualReadingChallenge from "../../components/Challenge/AnnualReadingChallenge";
 
 const PagesToRead = () => {
   const [readBooks, setReadBooks] = useState(() => getStoredReadList());
@@ -282,6 +283,11 @@ const PagesToRead = () => {
               })}
             </div>
           </div>
+        </section>
+
+        {/* Annual Reading Challenge Quest */}
+        <section className="mt-8">
+          <AnnualReadingChallenge readCount={readBooks.length} />
         </section>
 
         {/* Reading Milestone & Literary Scholar Rank */}
