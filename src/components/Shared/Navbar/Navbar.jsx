@@ -1,42 +1,140 @@
-import { NavLink } from "react-router";
+import { useState } from "react";
+import { NavLink, Link } from "react-router";
+import { BookOpen, Flame, Menu, X } from "lucide-react";
+import AmbientSoundController from "../../Effects/AmbientSoundController";
+import { getReadingStreak } from "../../../utils/storage";
+
 const Navbar = () => {
-    const links = <>
-    <div className="mr-1 flex flex-col gap-2 sm:flex-row">
-        <li><NavLink to={"/"} className={({ isActive }) => isActive ? " text-green-500  border bg-amber-50 border-green-500" : ""}>Home</NavLink></li>
-        <li><NavLink to={"/books"} className={({ isActive }) => isActive ? "text-green-500 border bg-amber-50 border-green-500" : ""}>Listed Books</NavLink></li>
-        <li><NavLink to={"/about"} className={({ isActive }) => isActive ? "text-green-500  border bg-amber-50 border-green-500" : ""}>Pages to Read</NavLink></li>
-    </div>
-    </>;
-    return (
-        <div>
-            <div className="navbar m-3 p-3 container mx-auto shadow-sm">
-                <div className="navbar-start">
-                    <div className="dropdown">
-                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-                            </svg>     
-                        </div>
-                        <ul
-                            tabIndex={-1}
-                            className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            {links}
-                        </ul>
-                    </div>
-                    <h2 className="font-bold text-xl">Book Vibe</h2>
-                </div>
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        {links}
-                    </ul>
-                </div>
-                <div className="navbar-end gap-2 ">
-                    <button className="btn text-white bg-[#23BE0A]">Sign In</button>
-                    <button className="btn text-white bg-[#59C6D2]">Sign Up</button>
-                </div>
-            </div>
+  const [isOpen, setIsOpen] = useState(false);
+  const [streak] = useState(() => getReadingStreak());
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Listed Books", path: "/books" },
+    { name: "Pages to Read", path: "/pages-to-read" },
+  ];
+
+  return (
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6">
+        {/* Brand Logo */}
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#23BE0A] via-emerald-500 to-teal-400 text-white shadow-lg shadow-emerald-500/25 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
+            <BookOpen className="h-6 w-6" />
+          </div>
+          <div>
+            <span className="font-serif text-2xl font-black tracking-tight text-slate-900 group-hover:text-emerald-600 transition">
+              Book<span className="text-[#23BE0A]">Vibe</span>
+            </span>
+            <span className="hidden sm:block text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              Cinematic Educational Library
+            </span>
+          </div>
+        </Link>
+
+        {/* Center Navigation Links (Desktop) */}
+        <nav className="hidden lg:flex items-center gap-1.5">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              className={({ isActive }) =>
+                `rounded-2xl px-5 py-2.5 text-sm font-bold transition-all duration-200 ${
+                  isActive
+                    ? "border border-[#23BE0A] bg-emerald-50 text-[#23BE0A] shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
+                }`
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Right Action Tools: Audio Ambiance, Reading Streak, Sign In / Join */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Ambient Sound Controller */}
+          <AmbientSoundController />
+
+          {/* Reading Streak Badge */}
+          <div
+            className="hidden sm:flex items-center gap-1.5 rounded-full border border-amber-300/60 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-800 shadow-sm"
+            title={`${streak.count} Day Reading Streak`}
+          >
+            <Flame className="h-4 w-4 text-amber-500 fill-amber-500 animate-bounce" />
+            <span>{streak.count} Days</span>
+          </div>
+
+          {/* Educational Action CTA */}
+          <div className="hidden md:flex items-center gap-2">
+            <Link
+              to="/books"
+              className="rounded-2xl bg-[#23BE0A] hover:bg-[#1fa509] px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-emerald-500/25 transition hover:scale-105"
+            >
+              My Library
+            </Link>
+
+            <Link
+              to="/pages-to-read"
+              className="rounded-2xl bg-[#59C6D2] hover:bg-[#4ab8c4] px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-cyan-500/25 transition hover:scale-105"
+            >
+              Analytics
+            </Link>
+          </div>
+
+          {/* Mobile Menu Hamburger Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 lg:hidden text-slate-700 hover:bg-slate-100 transition"
+            aria-label="Toggle Navigation Menu"
+          >
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-    );
+      </div>
+
+      {/* Mobile Drawer Menu */}
+      {isOpen && (
+        <div className="border-t border-slate-200 bg-white/95 px-5 py-5 backdrop-blur-xl lg:hidden animate-in fade-in slide-in-from-top-2">
+          <nav className="flex flex-col gap-2">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) =>
+                  `rounded-xl px-4 py-3 text-sm font-bold transition ${
+                    isActive
+                      ? "border border-[#23BE0A] bg-emerald-50 text-[#23BE0A]"
+                      : "text-slate-700 hover:bg-slate-100"
+                  }`
+                }
+              >
+                {link.name}
+              </NavLink>
+            ))}
+
+            <div className="mt-2 pt-3 border-t border-slate-100 flex flex-col gap-2">
+              <Link
+                to="/books"
+                onClick={() => setIsOpen(false)}
+                className="w-full text-center rounded-xl bg-[#23BE0A] py-2.5 text-xs font-bold text-white"
+              >
+                My Library
+              </Link>
+              <Link
+                to="/pages-to-read"
+                onClick={() => setIsOpen(false)}
+                className="w-full text-center rounded-xl bg-[#59C6D2] py-2.5 text-xs font-bold text-white"
+              >
+                Analytics Dashboard
+              </Link>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default Navbar;
