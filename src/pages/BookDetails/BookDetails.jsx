@@ -16,9 +16,11 @@ import {
   RotateCcw,
   Clock,
   Compass,
+  FileText,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
 import BookFlipModal from "../../components/BookReader/BookFlipModal";
+import ScholarNotesModal from "../../components/Notes/ScholarNotesModal";
 import { useToast } from "../../components/Shared/Toast/useToast";
 import {
   addToReadList,
@@ -49,6 +51,7 @@ const BookDetails = () => {
     book ? getBookNotes(book.bookId) : ""
   );
   const [isSavingNote, setIsSavingNote] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
   const [pagesPerDay, setPagesPerDay] = useState(25);
 
   // Local state checks
@@ -431,13 +434,24 @@ const BookDetails = () => {
                       <Sparkles className="h-3.5 w-3.5 text-violet-600" />
                       Personal Reflections & Notes
                     </span>
-                    <button
-                      onClick={handleSaveNotes}
-                      className="flex items-center gap-1 text-[11px] font-bold text-violet-600 hover:text-violet-800"
-                    >
-                      <Save className="h-3 w-3" />
-                      <span>{isSavingNote ? "Saved!" : "Save"}</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowNotesModal(true)}
+                        className="flex items-center gap-1 text-[11px] font-bold text-violet-600 hover:text-violet-800 underline"
+                      >
+                        <FileText className="h-3 w-3" />
+                        <span>Open Journal Studio</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleSaveNotes}
+                        className="flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-violet-600"
+                      >
+                        <Save className="h-3 w-3" />
+                        <span>{isSavingNote ? "Saved!" : "Save"}</span>
+                      </button>
+                    </div>
                   </div>
                   <textarea
                     rows={2}
@@ -552,6 +566,16 @@ const BookDetails = () => {
       {showFlipModal && (
         <BookFlipModal book={book} onClose={() => setShowFlipModal(false)} />
       )}
+
+      {/* Scholar Notes & Journal Studio Modal */}
+      <ScholarNotesModal
+        book={book}
+        isOpen={showNotesModal}
+        onClose={() => {
+          setShowNotesModal(false);
+          setPersonalNote(getBookNotes(book.bookId));
+        }}
+      />
     </main>
   );
 };
