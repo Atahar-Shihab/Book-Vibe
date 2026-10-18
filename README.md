@@ -12,7 +12,7 @@
 
 **An immersive, 3D/4D/5D cinematic open-access literature library, reading progress visualizer, and educational exploration hub.**
 
-[Explore Live Catalog](#-30-curated-real-world-educational-books) • [Key Features](#-cinematic-3d--5d-features) • [GitHub Conventions & Pull Shark](#-github-conventions--pull-shark-3-guide) • [Contributing](CONTRIBUTING.md)
+[Explore Live Catalog](#-30-curated-real-world-educational-books) • [Key Features](#-cinematic-3d--5d-features) • [Engineering & Git Standards](#-git-branching--engineering-standards) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -20,7 +20,7 @@
 
 ## 🌟 Overview & Educational Mission
 
-**Book Vibe** is an open-source educational project engineered to make reading world-renowned literature thrilling, accessible, and deeply interactive. By marrying timeless public domain literary works with cutting-edge 3D browser graphics, Web Audio API synthesis, and speech technology, Book Vibe transforms reading from passive consumption into an unforgettable sensory journey.
+**Book Vibe** is an open-source educational platform engineered to make reading world-renowned literature thrilling, accessible, and deeply interactive. By marrying timeless public domain literary works with cutting-edge 3D browser graphics, Web Audio API synthesis, and speech technology, Book Vibe transforms reading from passive consumption into an unforgettable sensory journey.
 
 Every student and reader has instant access to 30 authentic masterpieces across literature, philosophy, astrophysics, and computer science—complete with original literary analyses, chapter excerpts, famous passages, and direct open-access reading links.
 
@@ -83,7 +83,7 @@ Every student and reader has instant access to 30 authentic masterpieces across 
 | 14 | The Odyssey | Homer | ~700 BC | Classic | Advanced | 10.0 hrs | [Project Gutenberg](https://www.gutenberg.org/ebooks/1727) |
 | 15 | Clean Code | Robert C. Martin | 2008 | Science | Intermediate | 12.0 hrs | [Open Library](https://openlibrary.org/works/OL15846669W) |
 | 16 | The Little Prince | Antoine de Saint-Exupéry | 1943 | Philosophy | Beginner | 2.5 hrs | [Open Library](https://openlibrary.org/works/OL27479W) |
-| 17 | Brave New World | Aldous Huxley | 1932 | Science | Intermediate | 7.2 hrs | [Open Library](https://openlibrary.org/works/OL15844884W) |
+| 17 | Brave New World | Aldous Huxley | 1932 | Science | Intermediate | 7.2 hrs | [Open Library](https://openlibrary.org/works/OL15846668W) |
 | 18 | Hound of the Baskervilles | Arthur Conan Doyle | 1902 | Mystery | Beginner | 6.0 hrs | [Project Gutenberg](https://www.gutenberg.org/ebooks/2852) |
 | 19 | Man's Search for Meaning | Viktor E. Frankl | 1946 | Philosophy | Intermediate | 4.2 hrs | [Open Library](https://openlibrary.org/works/OL15846670W) |
 | 20 | The Republic | Plato | ~375 BC | Philosophy | Advanced | 11.0 hrs | [Project Gutenberg](https://www.gutenberg.org/ebooks/1497) |
@@ -100,9 +100,9 @@ Every student and reader has instant access to 30 authentic masterpieces across 
 
 ---
 
-## 🦈 GitHub Conventions & Pull Shark 3 Guide
+## 🌿 Git Branching & Engineering Standards
 
-To unlock the **GitHub Pull Shark 3** achievement, follow our streamlined Pull Request workflow:
+Book Vibe adheres to industry-standard Git flow, conventional commit semantics, and continuous integration workflows:
 
 ```mermaid
 gitGraph
@@ -112,12 +112,12 @@ gitGraph
    commit id: "feat(shelf): 3d spines"
    commit id: "style(shelf): gold ribs"
    checkout main
-   merge feat/3d-shelf id: "PR #1 (Merged 🦈)"
+   merge feat/3d-shelf id: "PR #1 (Merged)"
    branch feat/audio-engine
    checkout feat/audio-engine
    commit id: "feat(audio): web audio api"
    checkout main
-   merge feat/audio-engine id: "PR #2 (Merged 🦈🦈)"
+   merge feat/audio-engine id: "PR #2 (Merged)"
 ```
 
 ### Git Branching Standards:
@@ -134,7 +134,7 @@ git commit -m "fix(audio): handle browser autoplay policy gracefully"
 git commit -m "docs(readme): add interactive architecture diagrams"
 ```
 
-Check out [CONTRIBUTING.md](CONTRIBUTING.md) for full instructions on opening and merging PRs.
+Check out [CONTRIBUTING.md](CONTRIBUTING.md) for full instructions on opening pull requests.
 
 ---
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router";
 import {
   getStoredReadList,
@@ -20,6 +20,8 @@ import {
   Edit3,
   ChevronDown,
   Sparkles,
+  RotateCcw,
+  Download,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
 
@@ -32,14 +34,24 @@ const Books = () => {
   const [editingNotesFor, setEditingNotesFor] = useState(null);
   const [currentNoteText, setCurrentNoteText] = useState("");
 
-  const handleRemove = (bookId, e) => {
+  // Keep synced with global storage events
+  useEffect(() => {
+    const handleSync = () => {
+      setReadBooks(getStoredReadList());
+      setWishlistBooks(getStoredWishlist());
+    };
+    window.addEventListener("bookvibe_storage_updated", handleSync);
+    return () => window.removeEventListener("bookvibe_storage_updated", handleSync);
+  }, []);
+
+  const handleRemove = (book, e) => {
     e.preventDefault();
     e.stopPropagation();
     if (activeTab === "read") {
-      const updated = removeFromReadList(bookId, showToast);
+      const updated = removeFromReadList(book.bookId, showToast, book.bookName);
       setReadBooks(updated);
     } else {
-      const updated = removeFromWishlist(bookId, showToast);
+      const updated = removeFromWishlist(book.bookId, showToast, book.bookName);
       setWishlistBooks(updated);
     }
   };
@@ -56,6 +68,41 @@ const Books = () => {
       saveBookNote(editingNotesFor.bookId, currentNoteText, showToast);
       setEditingNotesFor(null);
     }
+  };
+
+  // Export Reading Journal to Markdown
+  const exportJournal = () => {
+    const listToExport = activeTab === "read" ? readBooks : wishlistBooks;
+    if (listToExport.length === 0) {
+      showToast("No books available to export in this tab", "info");
+      return;
+    }
+
+    const title = activeTab === "read" ? "My Completed Reading List" : "My Reading Wishlist";
+    let markdown = `# 📚 Book Vibe — ${title}\n\n`;
+    markdown += `*Exported on ${new Date().toLocaleDateString()}*\n\n---\n\n`;
+
+    listToExport.forEach((b, idx) => {
+      const note = getBookNotes(b.bookId);
+      markdown += `### ${idx + 1}. ${b.bookName} (${b.yearOfPublishing})\n`;
+      markdown += `* **Author**: ${b.author}\n`;
+      markdown += `* **Category**: ${b.category}\n`;
+      markdown += `* **Pages**: ${b.totalPages} | **Rating**: ${b.rating} / 5\n`;
+      markdown += `* **Publisher**: ${b.publisher}\n`;
+      if (note) {
+        markdown += `* **Personal Reflection / Notes**:\n  > "${note}"\n`;
+      }
+      markdown += `\n`;
+    });
+
+    const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `bookvibe-${activeTab}-books.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showToast("📥 Reading journal exported successfully!", "success");
   };
 
   // Sort logic
@@ -92,18 +139,18 @@ const Books = () => {
               Listed Books Catalog
             </h1>
             <p className="mt-2 text-xs sm:text-sm text-slate-300 max-w-lg mx-auto">
-              Track your literary milestones, organize wishlist treasures, and preserve personal reflections.
+              Track your literary milestones, organize wishlist treasures, unmark or reclassify books, and preserve personal reflections.
             </p>
           </div>
         </div>
 
-        {/* Sort Dropdown Section */}
-        <div className="my-8 flex justify-center">
+        {/* Controls Section: Sort & Export */}
+        <div className="my-8 flex flex-wrap items-center justify-between gap-4">
           <div className="relative inline-block">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none rounded-2xl bg-[#23BE0A] hover:bg-[#1fa509] px-6 py-3.5 pr-12 text-sm font-bold text-white shadow-lg shadow-emerald-500/20 cursor-pointer outline-none transition"
+              className="appearance-none rounded-2xl bg-[#23BE0A] hover:bg-[#1fa509] px-6 py-3 pr-12 text-xs sm:text-sm font-bold text-white shadow-lg shadow-emerald-500/20 cursor-pointer outline-none transition"
               aria-label="Sort listed books"
             >
               <option value="none">Sort By: Default</option>
@@ -113,6 +160,17 @@ const Books = () => {
             </select>
             <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
           </div>
+
+          {currentList.length > 0 && (
+            <button
+              onClick={exportJournal}
+              className="flex items-center gap-1.5 rounded-2xl border border-slate-300 bg-white hover:bg-slate-50 px-4 py-2.5 text-xs font-bold text-slate-700 shadow-sm transition"
+              title="Download your reading list as Markdown file"
+            >
+              <Download className="h-4 w-4 text-violet-600" />
+              <span>Export {activeTab === "read" ? "Read List" : "Wishlist"}</span>
+            </button>
+          )}
         </div>
 
         {/* Tabs Bar */}
@@ -157,12 +215,12 @@ const Books = () => {
               </span>
               <h3 className="mt-4 text-2xl font-bold text-slate-800">
                 {activeTab === "read"
-                  ? "No books marked as read yet"
+                  ? "No books currently marked as read"
                   : "Your wishlist is empty"}
               </h3>
               <p className="mt-2 max-w-md text-xs sm:text-sm text-slate-500">
                 {activeTab === "read"
-                  ? "Browse through our collection of classics and click 'Mark as Read' to record your accomplishments."
+                  ? "Browse through our collection of classics and click 'Mark as Read' to record your accomplishments. You can also unmark them at any time."
                   : "Save titles you yearn to read soon by clicking the heart button on any book card."}
               </p>
               <Link
@@ -207,11 +265,11 @@ const Books = () => {
                             </p>
                           </div>
 
-                          {/* Quick Remove Button */}
+                          {/* Quick Remove / Unmark Button */}
                           <button
-                            onClick={(e) => handleRemove(book.bookId, e)}
+                            onClick={(e) => handleRemove(book, e)}
                             className="rounded-xl p-2 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
-                            title="Remove from list"
+                            title={activeTab === "read" ? "Unmark / Remove from Read List" : "Remove from Wishlist"}
                             aria-label="Remove book"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -257,7 +315,7 @@ const Books = () => {
                         )}
                       </div>
 
-                      {/* Card Bottom Actions */}
+                      {/* Card Bottom Actions (with EXPLICIT Unmark Option) */}
                       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
                         <div className="flex items-center gap-3">
                           <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
@@ -269,7 +327,19 @@ const Books = () => {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
+                          {/* Unmark option for Read Books */}
+                          {activeTab === "read" && (
+                            <button
+                              onClick={(e) => handleRemove(book, e)}
+                              className="flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 px-3 py-2 text-xs font-bold text-rose-700 transition"
+                              title="Remove from Mark as Read"
+                            >
+                              <RotateCcw className="h-3.5 w-3.5" />
+                              <span>Unmark Read</span>
+                            </button>
+                          )}
+
                           <button
                             onClick={(e) => openNotesModal(book, e)}
                             className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-100"

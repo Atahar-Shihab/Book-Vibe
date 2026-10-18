@@ -1,31 +1,80 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router";
-import { Sparkles, BookOpen, Compass, Search, Volume2, ArrowRight } from "lucide-react";
-import { speakText } from "../../utils/audio";
+import { Sparkles, BookOpen, Compass, Search, Volume2, ArrowRight, X, Shuffle } from "lucide-react";
+import { speakText, stopSpeaking } from "../../utils/audio";
 import TiltCard from "../Effects/TiltCard";
+
+const quotes = [
+  {
+    quote: "A reader lives a thousand lives before he dies. The man who never reads lives only one.",
+    author: "George R.R. Martin",
+  },
+  {
+    quote: "You have power over your mind - not outside events. Realize this, and you will find strength.",
+    author: "Marcus Aurelius",
+  },
+  {
+    quote: "Somewhere, something incredible is waiting to be known.",
+    author: "Carl Sagan",
+  },
+  {
+    quote: "You never really understand a person until you climb into his skin and walk around in it.",
+    author: "Harper Lee",
+  },
+  {
+    quote: "It is only with the heart that one can see rightly; what is essential is invisible to the eye.",
+    author: "Antoine de Saint-Exupéry",
+  },
+];
 
 const Banner = ({ onSearch, searchQuery = "" }) => {
   const [localSearch, setLocalSearch] = useState(searchQuery);
+  const [quoteIdx, setQuoteIdx] = useState(0);
   const [isSpeakingQuote, setIsSpeakingQuote] = useState(false);
+  const searchInputRef = useRef(null);
 
-  const literaryQuote = {
-    quote: "A reader lives a thousand lives before he dies. The man who never reads lives only one.",
-    author: "George R.R. Martin",
-  };
+  const currentQuote = quotes[quoteIdx];
+
+  // Keyboard shortcut '/' to focus search
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "/" && document.activeElement !== searchInputRef.current) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (onSearch) onSearch(localSearch);
-    // Smooth scroll to books section
     const el = document.getElementById("all-books-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleClearSearch = () => {
+    setLocalSearch("");
+    if (onSearch) onSearch("");
+  };
+
+  const handleShuffleQuote = () => {
+    stopSpeaking();
+    setIsSpeakingQuote(false);
+    setQuoteIdx((prev) => (prev + 1) % quotes.length);
+  };
+
   const handleSpeakQuote = () => {
-    setIsSpeakingQuote(true);
-    speakText(`${literaryQuote.quote} - by ${literaryQuote.author}`, () => {
+    if (isSpeakingQuote) {
+      stopSpeaking();
       setIsSpeakingQuote(false);
-    });
+    } else {
+      setIsSpeakingQuote(true);
+      speakText(`${currentQuote.quote} - by ${currentQuote.author}`, () => {
+        setIsSpeakingQuote(false);
+      });
+    }
   };
 
   return (
@@ -59,22 +108,33 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
             Experience our 3D Virtual Bookshelf, audio narration, and deep educational insights.
           </p>
 
-          {/* Live Search Form */}
+          {/* Live Search Form with Clear & Hotkey */}
           <form onSubmit={handleSearchSubmit} className="mt-7 flex max-w-md items-center gap-2 rounded-2xl border border-white/20 bg-white/10 p-1.5 backdrop-blur-xl shadow-xl">
-            <Search className="ml-3 h-5 w-5 text-slate-300" />
+            <Search className="ml-3 h-5 w-5 text-slate-300 shrink-0" />
             <input
+              ref={searchInputRef}
               type="text"
-              placeholder="Search by title, author, or genre..."
+              placeholder="Search by title, author, or genre... (Press '/' to focus)"
               value={localSearch}
               onChange={(e) => {
                 setLocalSearch(e.target.value);
                 if (onSearch) onSearch(e.target.value);
               }}
-              className="w-full bg-transparent px-2 py-1.5 text-sm text-white placeholder-slate-400 outline-none"
+              className="w-full bg-transparent px-2 py-1.5 text-xs sm:text-sm text-white placeholder-slate-400 outline-none"
             />
+            {localSearch && (
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="p-1 rounded-full text-slate-300 hover:text-white transition"
+                aria-label="Clear search"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
             <button
               type="submit"
-              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2.5 text-xs font-bold text-slate-950 hover:brightness-110 transition shadow-md"
+              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2.5 text-xs font-bold text-slate-950 hover:brightness-110 transition shadow-md shrink-0"
             >
               Explore
             </button>
@@ -100,28 +160,41 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
             </Link>
           </div>
 
-          {/* Daily Literary Quote Widget */}
+          {/* Daily Literary Quote Widget with Shuffle & Narration */}
           <div className="mt-8 flex items-center justify-between gap-4 rounded-2xl border border-amber-500/20 bg-amber-950/20 p-4 backdrop-blur-md">
             <div>
               <p className="font-serif italic text-xs sm:text-sm text-amber-200">
-                "{literaryQuote.quote}"
+                "{currentQuote.quote}"
               </p>
               <span className="text-[11px] font-bold text-amber-400/80">
-                — {literaryQuote.author}
+                — {currentQuote.author}
               </span>
             </div>
-            <button
-              onClick={handleSpeakQuote}
-              className={`rounded-xl p-2.5 transition shrink-0 ${
-                isSpeakingQuote
-                  ? "bg-amber-400 text-slate-950 animate-pulse"
-                  : "bg-white/10 text-amber-300 hover:bg-white/20"
-              }`}
-              title="Listen to Quote"
-              aria-label="Listen to Quote"
-            >
-              <Volume2 className="h-4 w-4" />
-            </button>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={handleShuffleQuote}
+                className="rounded-xl p-2.5 bg-white/10 text-amber-300 hover:bg-white/20 transition"
+                title="Shuffle Quote"
+                aria-label="Shuffle Quote"
+              >
+                <Shuffle className="h-4 w-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSpeakQuote}
+                className={`rounded-xl p-2.5 transition shrink-0 ${
+                  isSpeakingQuote
+                    ? "bg-amber-400 text-slate-950 animate-pulse"
+                    : "bg-white/10 text-amber-300 hover:bg-white/20"
+                }`}
+                title="Listen to Quote"
+                aria-label="Listen to Quote"
+              >
+                <Volume2 className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
 

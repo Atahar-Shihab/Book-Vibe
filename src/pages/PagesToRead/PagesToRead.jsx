@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router";
 import { getStoredReadList, getReadingStreak } from "../../utils/storage";
 import {
@@ -10,26 +10,56 @@ import {
   Sparkles,
   ArrowRight,
   TrendingUp,
+  ArrowUpDown,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
 
 const PagesToRead = () => {
-  const [readBooks] = useState(() => getStoredReadList());
-  const [streak] = useState(() => getReadingStreak());
+  const [readBooks, setReadBooks] = useState(() => getStoredReadList());
+  const [streak, setStreak] = useState(() => getReadingStreak());
   const [hoveredBook, setHoveredBook] = useState(null);
-  const [useDemoData] = useState(() => getStoredReadList().length === 0);
+  const [chartSortBy, setChartSortBy] = useState("pages"); // 'pages' | 'rating' | 'year'
 
   // Sample educational seed data if user hasn't marked any as read yet
-  const sampleBooks = [
-    { bookId: 1, bookName: "The Great Gatsby", totalPages: 180, category: "Classic", rating: 4.7 },
-    { bookId: 2, bookName: "To Kill a Mockingbird", totalPages: 281, category: "Fiction", rating: 4.9 },
-    { bookId: 3, bookName: "1984", totalPages: 328, category: "Science", rating: 4.8 },
-    { bookId: 6, bookName: "The Hobbit", totalPages: 310, category: "Fantasy", rating: 4.9 },
-    { bookId: 7, bookName: "Meditations", totalPages: 204, category: "Philosophy", rating: 4.9 },
-    { bookId: 16, bookName: "The Little Prince", totalPages: 96, category: "Philosophy", rating: 4.9 },
-  ];
+  const sampleBooks = useMemo(
+    () => [
+      { bookId: 1, bookName: "The Great Gatsby", totalPages: 180, category: "Classic", rating: 4.7, yearOfPublishing: 1925 },
+      { bookId: 2, bookName: "To Kill a Mockingbird", totalPages: 281, category: "Fiction", rating: 4.9, yearOfPublishing: 1960 },
+      { bookId: 3, bookName: "1984", totalPages: 328, category: "Science", rating: 4.8, yearOfPublishing: 1949 },
+      { bookId: 6, bookName: "The Hobbit", totalPages: 310, category: "Fantasy", rating: 4.9, yearOfPublishing: 1937 },
+      { bookId: 7, bookName: "Meditations", totalPages: 204, category: "Philosophy", rating: 4.9, yearOfPublishing: 180 },
+      { bookId: 16, bookName: "The Little Prince", totalPages: 96, category: "Philosophy", rating: 4.9, yearOfPublishing: 1943 },
+    ],
+    []
+  );
 
-  const displayBooks = useDemoData || readBooks.length === 0 ? sampleBooks : readBooks;
+  // Sync with global storage updates (including unmarking)
+  useEffect(() => {
+    const handleSync = () => {
+      setReadBooks(getStoredReadList());
+      setStreak(getReadingStreak());
+    };
+    window.addEventListener("bookvibe_storage_updated", handleSync);
+    return () => window.removeEventListener("bookvibe_storage_updated", handleSync);
+  }, []);
+
+  const isDemo = readBooks.length === 0;
+  const rawList = isDemo ? sampleBooks : readBooks;
+
+  // Sorted list for chart display
+  const displayBooks = useMemo(() => {
+    const list = [...rawList];
+    if (chartSortBy === "pages") {
+      return list.sort((a, b) => b.totalPages - a.totalPages);
+    }
+    if (chartSortBy === "rating") {
+      return list.sort((a, b) => b.rating - a.rating);
+    }
+    if (chartSortBy === "year") {
+      return list.sort((a, b) => b.yearOfPublishing - a.yearOfPublishing);
+    }
+    return list;
+  }, [rawList, chartSortBy]);
 
   // Aggregate stats
   const totalPagesRead = displayBooks.reduce((sum, b) => sum + (b.totalPages || 0), 0);
@@ -69,13 +99,13 @@ const PagesToRead = () => {
           </div>
         </div>
 
-        {/* Demo Mode Notice */}
-        {useDemoData && readBooks.length === 0 && (
+        {/* Demo Mode Notice if user has no read books */}
+        {isDemo && (
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-900">
             <div className="flex items-center gap-2">
               <span className="text-base">💡</span>
               <span>
-                <strong>Sample Preview Mode:</strong> You haven't marked any books as read yet.
+                <strong>Sample Preview Mode:</strong> You currently have no books marked as read.
                 Showing sample classic literature metrics below!
               </span>
             </div>
@@ -156,12 +186,21 @@ const PagesToRead = () => {
               </p>
             </div>
 
-            {hoveredBook && (
-              <div className="rounded-2xl border border-violet-200 bg-violet-50 px-4 py-2 text-xs animate-in fade-in">
-                <span className="font-bold text-violet-900">{hoveredBook.bookName}</span>:{" "}
-                <strong className="text-violet-700">{hoveredBook.totalPages} pages</strong>
-              </div>
-            )}
+            {/* Chart Sorting Controls */}
+            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs">
+              <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
+              <span className="font-semibold text-slate-500">Sort:</span>
+              <select
+                value={chartSortBy}
+                onChange={(e) => setChartSortBy(e.target.value)}
+                className="bg-transparent font-bold text-slate-700 outline-none cursor-pointer"
+                aria-label="Sort chart columns"
+              >
+                <option value="pages">Most Pages</option>
+                <option value="rating">Highest Rating</option>
+                <option value="year">Publish Year</option>
+              </select>
+            </div>
           </div>
 
           {/* Interactive Chart Container */}
@@ -300,13 +339,20 @@ const PagesToRead = () => {
               </p>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 to="/"
                 className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 text-xs font-bold text-white shadow-lg shadow-emerald-500/20 transition hover:scale-105"
               >
                 <span>Browse All Books</span>
                 <ArrowRight className="h-4 w-4" />
+              </Link>
+
+              <Link
+                to="/books"
+                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+              >
+                <span>Manage Read List</span>
               </Link>
             </div>
           </div>

@@ -1,20 +1,8 @@
-# 🤝 Contributing to Book Vibe & Achieving GitHub Pull Shark 3
+# 🤝 Contributing to Book Vibe
 
 Thank you for your interest in contributing to **Book Vibe**! This project is an open-source, educational, 3D cinematic literature portal designed to help students, developers, and bibliophiles explore timeless literature freely.
 
----
-
-## 🦈 Earning the GitHub "Pull Shark" Achievement
-
-The **Pull Shark** achievement is awarded by GitHub when your pull requests are merged into a repository:
-* 🥉 **Pull Shark (Bronze)**: 2 merged Pull Requests
-* 🥈 **Pull Shark (Silver)**: 16 merged Pull Requests
-* 🥇 **Pull Shark 3 (Gold / Tier 3)**: 102 merged Pull Requests
-
-### Best Practices to Earn Pull Shark Legitimately:
-1. **Meaningful Modular Branches**: Split large features into logical, well-tested units (e.g. data expansions, audio engine enhancements, UI components, accessibility fixes, test suites).
-2. **Follow Proper Conventions**: Always use descriptive branch names, conventional commits, and fill out the pull request template.
-3. **Green CI Checks**: Ensure GitHub Actions passes before merging any pull request.
+We welcome all contributions—from fixing typos and expanding educational summaries to building novel 3D visualizers and accessibility enhancements.
 
 ---
 
@@ -100,4 +88,4 @@ git push -u origin feat/your-feature-name
 * Preserve documentation integrity and write descriptive docstrings.
 * Use React 19 functional components and hooks appropriately.
 * Use Tailwind CSS utility classes and semantic HTML elements (`<main>`, `<section>`, `<article>`, `<header>`).
-* Verify that all audio components gracefully handle browser permissions and mobile touch events.
+* Verify that all audio components gracefully handle browser autoplay policies and mobile touch events.
