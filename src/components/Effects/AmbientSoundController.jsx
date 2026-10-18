@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Volume2, VolumeX, CloudRain, Flame } from "lucide-react";
 import { startAmbientSound, stopAmbientSound } from "../../utils/audio";
+import AudioVisualizerWave from "./AudioVisualizerWave";
 
 const AmbientSoundController = () => {
   const [ambientMode, setAmbientMode] = useState("off"); // 'off' | 'rain' | 'fireplace'
@@ -17,7 +18,13 @@ const AmbientSoundController = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative flex items-center gap-2">
+      {/* Live Audio Visualizer Canvas */}
+      <AudioVisualizerWave
+        isActive={ambientMode !== "off"}
+        color={ambientMode === "rain" ? "#06b6d4" : "#f59e0b"}
+      />
+
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-300 shadow-sm ${

@@ -38,7 +38,7 @@ _Attach screenshots or short video previews of the 3D cinematic animations or UI
 
 ---
 
-### 🦈 GitHub Pull Shark Achievement Tracker
+### ✅ Pre-Merge Verification & Standards
 - [ ] Branch follows standard naming: `feat/*`, `fix/*`, `docs/*`, `enhancement/*`.
 - [ ] Commit messages adhere to [Conventional Commits](https://www.conventionalcommits.org/).
 - [ ] Pull request is ready for review and automated CI verification.

@@ -6,6 +6,13 @@ const WISHLIST_KEY = "bookvibe_wishlist";
 const NOTES_KEY = "bookvibe_notes";
 const STREAK_KEY = "bookvibe_reading_streak";
 
+// Dispatches custom event so all open views immediately synchronize
+function notifyStorageChange() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("bookvibe_storage_updated"));
+  }
+}
+
 export function getStoredReadList() {
   if (typeof window === "undefined") return [];
   try {
@@ -31,22 +38,26 @@ export function addToReadList(book, showToast) {
   const updated = [...currentList, { ...book, readAt: new Date().toISOString() }];
   localStorage.setItem(READ_LIST_KEY, JSON.stringify(updated));
 
-  // If in wishlist, optionally we can keep or note it
+  // If was in wishlist, we can remove from wishlist or leave
   playSuccessChime();
   updateReadingStreak();
+  notifyStorageChange();
 
   if (showToast) {
-    showToast(`🎉 Bravo! "${book.bookName}" added to Read Books!`, "success");
+    showToast(`🎉 "${book.bookName}" marked as Read!`, "success");
   }
   return { success: true };
 }
 
-export function removeFromReadList(bookId, showToast) {
+export function removeFromReadList(bookId, showToast, bookName) {
   const currentList = getStoredReadList();
   const updated = currentList.filter((b) => Number(b.bookId) !== Number(bookId));
   localStorage.setItem(READ_LIST_KEY, JSON.stringify(updated));
+  notifyStorageChange();
+
   if (showToast) {
-    showToast("Book removed from Read list", "info");
+    const nameStr = bookName ? `"${bookName}"` : "Book";
+    showToast(`↩️ ${nameStr} removed from Read Books`, "info");
   }
   return updated;
 }
@@ -68,7 +79,7 @@ export function addToWishlist(book, showToast) {
 
   if (isAlreadyRead) {
     if (showToast) {
-      showToast(`You have already completed "${book.bookName}", so it cannot be added to Wishlist!`, "warning");
+      showToast(`You have already completed "${book.bookName}". Unmark it first if you wish to re-add to Wishlist!`, "warning");
     }
     return { success: false, reason: "already_read" };
   }
@@ -86,6 +97,7 @@ export function addToWishlist(book, showToast) {
   const updated = [...currentWishlist, { ...book, addedAt: new Date().toISOString() }];
   localStorage.setItem(WISHLIST_KEY, JSON.stringify(updated));
   playSuccessChime();
+  notifyStorageChange();
 
   if (showToast) {
     showToast(`✨ "${book.bookName}" saved to your Wishlist!`, "success");
@@ -93,12 +105,15 @@ export function addToWishlist(book, showToast) {
   return { success: true };
 }
 
-export function removeFromWishlist(bookId, showToast) {
+export function removeFromWishlist(bookId, showToast, bookName) {
   const currentList = getStoredWishlist();
   const updated = currentList.filter((b) => Number(b.bookId) !== Number(bookId));
   localStorage.setItem(WISHLIST_KEY, JSON.stringify(updated));
+  notifyStorageChange();
+
   if (showToast) {
-    showToast("Book removed from Wishlist", "info");
+    const nameStr = bookName ? `"${bookName}"` : "Book";
+    showToast(`💔 ${nameStr} removed from Wishlist`, "info");
   }
   return updated;
 }
@@ -119,6 +134,7 @@ export function saveBookNote(bookId, note, showToast) {
     const allNotes = JSON.parse(localStorage.getItem(NOTES_KEY) || "{}");
     allNotes[bookId] = note;
     localStorage.setItem(NOTES_KEY, JSON.stringify(allNotes));
+    notifyStorageChange();
     if (showToast) {
       showToast("💾 Personal thoughts saved safely!", "success");
     }
@@ -129,11 +145,10 @@ export function saveBookNote(bookId, note, showToast) {
 
 // Reading Streak tracker
 export function getReadingStreak() {
-  if (typeof window === "undefined") return { count: 3, lastDate: new Date().toISOString() };
+  if (typeof window === "undefined") return { count: 4, lastDate: new Date().toISOString() };
   try {
     const data = localStorage.getItem(STREAK_KEY);
     if (!data) {
-      // Default initial motivational streak for student
       const initial = { count: 4, lastDate: new Date().toISOString() };
       localStorage.setItem(STREAK_KEY, JSON.stringify(initial));
       return initial;

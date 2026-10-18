@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { Star, BookOpen, Heart, CheckCircle2, Eye } from "lucide-react";
 import TiltCard from "../Effects/TiltCard";
 import { useToast } from "../Shared/Toast/useToast";
-import { addToReadList, addToWishlist, getStoredReadList, getStoredWishlist } from "../../utils/storage";
+import {
+  addToReadList,
+  removeFromReadList,
+  addToWishlist,
+  removeFromWishlist,
+  getStoredReadList,
+  getStoredWishlist,
+} from "../../utils/storage";
 
 const BookCard = ({ book, onQuickRead }) => {
   const { showToast } = useToast();
@@ -22,19 +29,54 @@ const BookCard = ({ book, onQuickRead }) => {
     difficulty,
   } = book;
 
-  const isRead = getStoredReadList().some((b) => Number(b.bookId) === Number(bookId));
-  const isWishlisted = getStoredWishlist().some((b) => Number(b.bookId) === Number(bookId));
+  const [isRead, setIsRead] = useState(() =>
+    getStoredReadList().some((b) => Number(b.bookId) === Number(bookId))
+  );
+  const [isWishlisted, setIsWishlisted] = useState(() =>
+    getStoredWishlist().some((b) => Number(b.bookId) === Number(bookId))
+  );
+
+  useEffect(() => {
+    const handleSync = () => {
+      setIsRead(getStoredReadList().some((b) => Number(b.bookId) === Number(bookId)));
+      setIsWishlisted(getStoredWishlist().some((b) => Number(b.bookId) === Number(bookId)));
+    };
+    window.addEventListener("bookvibe_storage_updated", handleSync);
+    return () => {
+      window.removeEventListener("bookvibe_storage_updated", handleSync);
+    };
+  }, [bookId]);
 
   const handleReadClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addToReadList(book, showToast);
+    if (isRead) {
+      removeFromReadList(bookId, showToast, bookName);
+      setIsRead(false);
+    } else {
+      const res = addToReadList(book, showToast);
+      if (res.success) {
+        setIsRead(true);
+        if (isWishlisted) {
+          removeFromWishlist(bookId);
+          setIsWishlisted(false);
+        }
+      }
+    }
   };
 
   const handleWishlistClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addToWishlist(book, showToast);
+    if (isWishlisted) {
+      removeFromWishlist(bookId, showToast, bookName);
+      setIsWishlisted(false);
+    } else {
+      const res = addToWishlist(book, showToast);
+      if (res.success) {
+        setIsWishlisted(true);
+      }
+    }
   };
 
   const handleQuickFlip = (e) => {
@@ -77,6 +119,14 @@ const BookCard = ({ book, onQuickRead }) => {
             <span className="absolute top-3 left-3 rounded-full border border-white/60 bg-white/80 px-2.5 py-1 text-[11px] font-bold text-violet-700 shadow-sm backdrop-blur-md">
               {category}
             </span>
+
+            {/* Read Status Badge on card */}
+            {isRead && (
+              <span className="absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-emerald-600/90 text-white px-2 py-0.5 text-[10px] font-bold shadow-sm backdrop-blur-sm">
+                <CheckCircle2 className="h-3 w-3" />
+                <span>Read</span>
+              </span>
+            )}
 
             {/* Difficulty Badge */}
             {difficulty && (
@@ -128,7 +178,7 @@ const BookCard = ({ book, onQuickRead }) => {
           </div>
         </div>
 
-        {/* Card Footer with Rating and Actions */}
+        {/* Card Footer with Rating and Actions (with UNMARK capability) */}
         <div className="mt-4 pt-3 border-t border-slate-100">
           <div className="flex items-center justify-between">
             {/* Rating */}
@@ -142,30 +192,36 @@ const BookCard = ({ book, onQuickRead }) => {
 
             {/* Quick Action Buttons */}
             <div className="flex items-center gap-1.5">
+              {/* Wishlist Toggle Button */}
               <button
                 onClick={handleWishlistClick}
                 className={`rounded-lg p-1.5 transition ${
                   isWishlisted
-                    ? "bg-rose-50 text-rose-600"
+                    ? "bg-rose-100 text-rose-600 shadow-sm"
                     : "text-slate-400 hover:bg-rose-50 hover:text-rose-600"
                 }`}
-                title="Save to Wishlist"
-                aria-label="Wishlist"
+                title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+                aria-label="Wishlist toggle"
               >
                 <Heart className={`h-4 w-4 ${isWishlisted ? "fill-rose-500" : ""}`} />
               </button>
 
+              {/* Mark / Unmark Read Button */}
               <button
                 onClick={handleReadClick}
                 className={`rounded-lg p-1.5 transition ${
                   isRead
-                    ? "bg-emerald-50 text-emerald-600"
+                    ? "bg-emerald-100 text-emerald-700 shadow-sm hover:bg-rose-100 hover:text-rose-600"
                     : "text-slate-400 hover:bg-emerald-50 hover:text-emerald-600"
                 }`}
-                title="Mark as Read"
-                aria-label="Mark Read"
+                title={isRead ? "Unmark as Read (Remove from Read List)" : "Mark as Read"}
+                aria-label="Read status toggle"
               >
-                <CheckCircle2 className={`h-4 w-4 ${isRead ? "fill-emerald-500" : ""}`} />
+                {isRead ? (
+                  <CheckCircle2 className="h-4 w-4 fill-emerald-600 text-white" />
+                ) : (
+                  <CheckCircle2 className="h-4 w-4" />
+                )}
               </button>
 
               <Link

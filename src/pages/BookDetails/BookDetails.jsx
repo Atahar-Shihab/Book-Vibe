@@ -13,13 +13,18 @@ import {
   Share2,
   Eye,
   Save,
+  RotateCcw,
+  Clock,
+  Compass,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
 import BookFlipModal from "../../components/BookReader/BookFlipModal";
 import { useToast } from "../../components/Shared/Toast/useToast";
 import {
   addToReadList,
+  removeFromReadList,
   addToWishlist,
+  removeFromWishlist,
   getStoredReadList,
   getStoredWishlist,
   getBookNotes,
@@ -44,20 +49,29 @@ const BookDetails = () => {
     book ? getBookNotes(book.bookId) : ""
   );
   const [isSavingNote, setIsSavingNote] = useState(false);
+  const [pagesPerDay, setPagesPerDay] = useState(25);
 
   // Local state checks
-  const isRead = book
-    ? getStoredReadList().some((b) => Number(b.bookId) === Number(book.bookId))
-    : false;
-  const isWishlisted = book
-    ? getStoredWishlist().some((b) => Number(b.bookId) === Number(book.bookId))
-    : false;
+  const [isRead, setIsRead] = useState(() =>
+    book ? getStoredReadList().some((b) => Number(b.bookId) === Number(book.bookId)) : false
+  );
+  const [isWishlisted, setIsWishlisted] = useState(() =>
+    book ? getStoredWishlist().some((b) => Number(b.bookId) === Number(book.bookId)) : false
+  );
 
   useEffect(() => {
+    const handleSync = () => {
+      if (book) {
+        setIsRead(getStoredReadList().some((b) => Number(b.bookId) === Number(book.bookId)));
+        setIsWishlisted(getStoredWishlist().some((b) => Number(b.bookId) === Number(book.bookId)));
+      }
+    };
+    window.addEventListener("bookvibe_storage_updated", handleSync);
     return () => {
+      window.removeEventListener("bookvibe_storage_updated", handleSync);
       stopSpeaking();
     };
-  }, []);
+  }, [book]);
 
   if (!book) {
     return (
@@ -97,6 +111,7 @@ const BookDetails = () => {
   } = book;
 
   const score = Number(rating) || 0;
+  const estimatedDays = Math.max(1, Math.ceil(totalPages / pagesPerDay));
 
   const toggleNarration = () => {
     if (isNarrating) {
@@ -106,6 +121,35 @@ const BookDetails = () => {
       setIsNarrating(true);
       const text = `${bookName} by ${author}. ${review}`;
       speakText(text, () => setIsNarrating(false));
+    }
+  };
+
+  const handleToggleRead = () => {
+    if (isRead) {
+      removeFromReadList(book.bookId, showToast, bookName);
+      setIsRead(false);
+    } else {
+      const res = addToReadList(book, showToast);
+      if (res.success) {
+        setIsRead(true);
+        // If it was in wishlist, also remove from wishlist smoothly
+        if (isWishlisted) {
+          removeFromWishlist(book.bookId);
+          setIsWishlisted(false);
+        }
+      }
+    }
+  };
+
+  const handleToggleWishlist = () => {
+    if (isWishlisted) {
+      removeFromWishlist(book.bookId, showToast, bookName);
+      setIsWishlisted(false);
+    } else {
+      const res = addToWishlist(book, showToast);
+      if (res.success) {
+        setIsWishlisted(true);
+      }
     }
   };
 
@@ -197,6 +241,14 @@ const BookDetails = () => {
                     {category}
                   </span>
 
+                  {/* Reading Status Ribbon if Read */}
+                  {isRead && (
+                    <span className="absolute left-5 bottom-5 z-20 flex items-center gap-1 rounded-full bg-emerald-600 text-white px-3 py-1 text-xs font-bold shadow-md animate-in fade-in">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      <span>Completed</span>
+                    </span>
+                  )}
+
                   {/* Rating Tag */}
                   <div className="absolute bottom-5 right-5 z-20 flex items-center gap-1.5 rounded-2xl border border-white/80 bg-white/95 px-3.5 py-2 shadow-lg backdrop-blur-md">
                     <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
@@ -208,7 +260,7 @@ const BookDetails = () => {
                 </div>
               </TiltCard>
 
-              {/* 3D Reader Modal Trigger */}
+              {/* 3D Reader Modal Trigger & Audio Narration */}
               <div className="mt-4 flex gap-2">
                 <button
                   onClick={() => setShowFlipModal(true)}
@@ -231,6 +283,37 @@ const BookDetails = () => {
                   <span>{isNarrating ? "Playing..." : "Audio"}</span>
                 </button>
               </div>
+
+              {/* Interactive Reading Pace Estimator */}
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                    <Clock className="h-3.5 w-3.5 text-violet-600" />
+                    <span>Reading Pace Calculator</span>
+                  </div>
+                  <span className="rounded-md bg-violet-100 px-2 py-0.5 text-[10px] font-bold text-violet-700">
+                    {pagesPerDay} pages / day
+                  </span>
+                </div>
+
+                <div className="mt-2.5 flex items-center gap-2">
+                  <input
+                    type="range"
+                    min="10"
+                    max="100"
+                    step="5"
+                    value={pagesPerDay}
+                    onChange={(e) => setPagesPerDay(Number(e.target.value))}
+                    className="w-full accent-violet-600 cursor-pointer"
+                    aria-label="Target pages per day"
+                  />
+                </div>
+
+                <p className="mt-2 text-[11px] text-slate-600">
+                  🎯 At this pace, you will finish this book in approximately{" "}
+                  <strong className="text-violet-700 font-bold">{estimatedDays} days</strong>!
+                </p>
+              </div>
             </div>
 
             {/* RIGHT: Book Information & Educational Details (7 cols) */}
@@ -239,7 +322,7 @@ const BookDetails = () => {
                 {/* Eyebrow */}
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-violet-700">
-                    Book Vibe Essential
+                    Curated Classic
                   </span>
                   <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                     Published {yearOfPublishing > 0 ? yearOfPublishing : `${Math.abs(yearOfPublishing)} BC`}
@@ -366,32 +449,45 @@ const BookDetails = () => {
                 </div>
               </div>
 
-              {/* Action Buttons Row */}
+              {/* Action Buttons Row with UNMARK / REMOVE option */}
               <div className="mt-8 flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
                 <button
                   type="button"
-                  onClick={() => addToReadList(book, showToast)}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-2xl px-6 py-3.5 text-xs font-bold text-white shadow-lg transition duration-200 ${
+                  onClick={handleToggleRead}
+                  className={`group flex flex-1 items-center justify-center gap-2 rounded-2xl px-6 py-3.5 text-xs font-bold transition duration-200 shadow-lg ${
                     isRead
-                      ? "bg-emerald-600 shadow-emerald-500/20"
-                      : "bg-[#23BE0A] shadow-emerald-500/25 hover:bg-[#1fa509]"
+                      ? "bg-emerald-600 hover:bg-rose-600 text-white shadow-emerald-500/20"
+                      : "bg-[#23BE0A] hover:bg-[#1fa509] text-white shadow-emerald-500/25"
                   }`}
+                  title={isRead ? "Click to remove from Read list" : "Mark as completed"}
                 >
-                  <CheckCircle2 className="h-4 w-4" />
-                  <span>{isRead ? "Marked as Read" : "Mark as Read"}</span>
+                  {isRead ? (
+                    <>
+                      <CheckCircle2 className="h-4 w-4 group-hover:hidden" />
+                      <RotateCcw className="h-4 w-4 hidden group-hover:inline" />
+                      <span className="group-hover:hidden">✓ Marked as Read</span>
+                      <span className="hidden group-hover:inline">Remove from Read</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="h-4 w-4" />
+                      <span>Mark as Read</span>
+                    </>
+                  )}
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => addToWishlist(book, showToast)}
+                  onClick={handleToggleWishlist}
                   className={`flex flex-1 items-center justify-center gap-2 rounded-2xl border px-6 py-3.5 text-xs font-bold transition duration-200 ${
                     isWishlisted
-                      ? "border-rose-200 bg-rose-50 text-rose-600"
+                      ? "border-rose-300 bg-rose-50 text-rose-600 hover:bg-rose-100"
                       : "border-slate-300 bg-white text-slate-700 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
                   }`}
+                  title={isWishlisted ? "Click to remove from Wishlist" : "Save to Wishlist"}
                 >
                   <Heart className={`h-4 w-4 ${isWishlisted ? "fill-rose-500" : ""}`} />
-                  <span>{isWishlisted ? "In Wishlist" : "Add to Wishlist"}</span>
+                  <span>{isWishlisted ? "Wishlisted (Click to Remove)" : "Add to Wishlist"}</span>
                 </button>
 
                 {freeReadUrl && (
@@ -414,9 +510,12 @@ const BookDetails = () => {
         {/* Related Books Section */}
         {relatedBooks.length > 0 && (
           <section className="mt-14">
-            <h3 className="font-serif text-2xl font-black text-slate-900 mb-6">
-              More from the {category} Collection
-            </h3>
+            <div className="flex items-center gap-2 mb-6">
+              <Compass className="h-5 w-5 text-violet-600" />
+              <h3 className="font-serif text-2xl font-black text-slate-900">
+                More from the {category} Collection
+              </h3>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedBooks.map((relBook) => (
                 <Link

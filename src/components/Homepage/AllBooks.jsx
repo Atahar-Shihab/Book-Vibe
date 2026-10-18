@@ -2,8 +2,20 @@ import { useState, useEffect, useMemo } from "react";
 import BookCard from "../BookCard/BookCard";
 import VirtualBookShelf from "../BookShelf/VirtualBookShelf";
 import BookFlipModal from "../BookReader/BookFlipModal";
+import BookComparatorModal from "../BookComparator/BookComparatorModal";
 import LiteraryTrivia from "./LiteraryTrivia";
-import { LayoutGrid, Library, ArrowUpDown, Filter, BookOpen, ExternalLink, Sparkles } from "lucide-react";
+import {
+  LayoutGrid,
+  Library,
+  ArrowUpDown,
+  Filter,
+  BookOpen,
+  ExternalLink,
+  Sparkles,
+  ArrowUp,
+  Clock,
+  ArrowRightLeft,
+} from "lucide-react";
 
 const categories = [
   "All",
@@ -21,10 +33,13 @@ const AllBooks = ({ externalSearch = "" }) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [lengthFilter, setLengthFilter] = useState("all"); // 'all' | 'quick' | 'medium' | 'epic'
   const [sortBy, setSortBy] = useState("rating-desc");
   const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'shelf'
   const [selectedBookForFlip, setSelectedBookForFlip] = useState(null);
+  const [showComparator, setShowComparator] = useState(false);
   const [search, setSearch] = useState("");
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const effectiveSearch = (externalSearch || search || "").trim();
 
@@ -41,6 +56,19 @@ const AllBooks = ({ externalSearch = "" }) => {
       });
   }, []);
 
+  // Monitor scroll for Scroll-to-Top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Filter & Sort
   const filteredAndSortedBooks = useMemo(() => {
     let result = [...books];
@@ -50,6 +78,15 @@ const AllBooks = ({ externalSearch = "" }) => {
       result = result.filter(
         (b) => b.category.toLowerCase() === selectedCategory.toLowerCase()
       );
+    }
+
+    // Length filter
+    if (lengthFilter === "quick") {
+      result = result.filter((b) => b.totalPages < 250);
+    } else if (lengthFilter === "medium") {
+      result = result.filter((b) => b.totalPages >= 250 && b.totalPages <= 400);
+    } else if (lengthFilter === "epic") {
+      result = result.filter((b) => b.totalPages > 400);
     }
 
     // Search query filter
@@ -77,10 +114,10 @@ const AllBooks = ({ externalSearch = "" }) => {
     });
 
     return result;
-  }, [books, selectedCategory, effectiveSearch, sortBy]);
+  }, [books, selectedCategory, lengthFilter, effectiveSearch, sortBy]);
 
   return (
-    <div id="all-books-section" className="my-12">
+    <div id="all-books-section" className="my-12 relative">
       {/* 3D Virtual Bookshelf Section */}
       {!loading && books.length > 0 && (
         <VirtualBookShelf
@@ -107,15 +144,31 @@ const AllBooks = ({ externalSearch = "" }) => {
             </p>
           </div>
 
-          {/* Right Controls: Sort & View Mode Switcher */}
+          {/* Right Controls: Length, Sort, & View Mode */}
           <div className="flex flex-wrap items-center gap-3">
+            {/* Reading Length Filter */}
+            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm text-xs">
+              <Clock className="h-3.5 w-3.5 text-slate-400" />
+              <select
+                value={lengthFilter}
+                onChange={(e) => setLengthFilter(e.target.value)}
+                className="bg-transparent font-semibold text-slate-700 outline-none cursor-pointer"
+                aria-label="Filter by reading length"
+              >
+                <option value="all">All Lengths</option>
+                <option value="quick">Quick (&lt; 250 p)</option>
+                <option value="medium">Standard (250–400 p)</option>
+                <option value="epic">Epic (400+ p)</option>
+              </select>
+            </div>
+
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
-              <ArrowUpDown className="h-4 w-4 text-slate-400" />
+            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm text-xs">
+              <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent text-xs font-semibold text-slate-700 outline-none cursor-pointer"
+                className="bg-transparent font-semibold text-slate-700 outline-none cursor-pointer"
                 aria-label="Sort books by"
               >
                 <option value="rating-desc">Rating: Highest First</option>
@@ -156,6 +209,16 @@ const AllBooks = ({ externalSearch = "" }) => {
                 <span className="hidden sm:inline">3D Shelf</span>
               </button>
             </div>
+
+            {/* Compare Books Button */}
+            <button
+              onClick={() => setShowComparator(true)}
+              className="flex items-center gap-1.5 rounded-2xl border border-violet-200 bg-violet-50 hover:bg-violet-100 px-3 py-2 text-xs font-bold text-violet-700 transition shadow-xs"
+              title="Compare 2 Books Side-by-Side"
+            >
+              <ArrowRightLeft className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Compare</span>
+            </button>
           </div>
         </div>
 
@@ -202,11 +265,12 @@ const AllBooks = ({ externalSearch = "" }) => {
             No books matched your criteria
           </h3>
           <p className="mt-2 text-xs text-slate-500 max-w-sm">
-            Try adjusting your search query or selecting a different category to explore.
+            Try adjusting your search query, reading length filter, or category.
           </p>
           <button
             onClick={() => {
               setSelectedCategory("All");
+              setLengthFilter("all");
               setSearch("");
             }}
             className="mt-5 rounded-xl bg-violet-600 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-violet-700"
@@ -276,6 +340,18 @@ const AllBooks = ({ externalSearch = "" }) => {
         </div>
       </section>
 
+      {/* Floating Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 left-6 z-40 flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900/90 text-white shadow-2xl backdrop-blur-md border border-white/20 transition-all hover:scale-110 hover:bg-violet-600"
+          title="Scroll back to top"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="h-5 w-5" />
+        </button>
+      )}
+
       {/* 3D Flip Reader Modal */}
       {selectedBookForFlip && (
         <BookFlipModal
@@ -283,6 +359,13 @@ const AllBooks = ({ externalSearch = "" }) => {
           onClose={() => setSelectedBookForFlip(null)}
         />
       )}
+
+      {/* Book Comparison Studio Modal */}
+      <BookComparatorModal
+        books={books}
+        isOpen={showComparator}
+        onClose={() => setShowComparator(false)}
+      />
     </div>
   );
 };
