@@ -38,7 +38,7 @@ _Attach screenshots or short video previews of the 3D cinematic animations or UI
 
 ---
 
-### ✅ Pre-Merge Verification & Standards
-- [ ] Branch follows standard naming: `feat/*`, `fix/*`, `docs/*`, `enhancement/*`.
+### 🏁 Contribution & Quality Checklist
+- [ ] Branch follows standard naming: `feat/*`, `fix/*`, `docs/*`, `perf/*`, etc.
 - [ ] Commit messages adhere to [Conventional Commits](https://www.conventionalcommits.org/).
 - [ ] Pull request is ready for review and automated CI verification.

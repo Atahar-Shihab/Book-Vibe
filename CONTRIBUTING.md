@@ -2,7 +2,16 @@
 
 Thank you for your interest in contributing to **Book Vibe**! This project is an open-source, educational, 3D cinematic literature portal designed to help students, developers, and bibliophiles explore timeless literature freely.
 
-We welcome all contributions—from fixing typos and expanding educational summaries to building novel 3D visualizers and accessibility enhancements.
+---
+
+## 🏛️ Engineering Philosophy & Contribution Standards
+
+We welcome contributions that advance educational accessibility, UI craftsmanship, and visual immersion. To maintain repository health and a reliable codebase, all contributions follow industry best practices:
+
+1. **Modular, Scoped Branches**: Keep branches dedicated to a single logical feature, improvement, or bug fix.
+2. **Conventional Commits**: Write clear, descriptive commit messages matching standard conventions.
+3. **Strict Quality Gates**: Ensure ESLint passes with zero warnings or errors and Vite production builds cleanly.
+4. **Comprehensive Documentation**: Keep component props documented, update README tables when adding literature, and fill out Pull Request descriptions thoroughly.
 
 ---
 

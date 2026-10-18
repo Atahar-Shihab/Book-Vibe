@@ -12,7 +12,7 @@
 
 **An immersive, 3D/4D/5D cinematic open-access literature library, reading progress visualizer, and educational exploration hub.**
 
-[Explore Live Catalog](#-30-curated-real-world-educational-books) • [Key Features](#-cinematic-3d--5d-features) • [Engineering & Git Standards](#-git-branching--engineering-standards) • [Contributing](CONTRIBUTING.md)
+[Explore Live Catalog](#-30-curated-real-world-educational-books) • [Key Features](#-cinematic-3d--5d-features) • [Git Workflow & PR Conventions](#-git-workflow--pr-conventions) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -100,9 +100,9 @@ Every student and reader has instant access to 30 authentic masterpieces across 
 
 ---
 
-## 🌿 Git Branching & Engineering Standards
+## 🔀 Git Workflow & PR Conventions
 
-Book Vibe adheres to industry-standard Git flow, conventional commit semantics, and continuous integration workflows:
+We adhere to enterprise-grade version control standards using a structured Git branching model and Pull Request lifecycle:
 
 ```mermaid
 gitGraph
@@ -121,11 +121,12 @@ gitGraph
 ```
 
 ### Git Branching Standards:
-* `main`: Stable production branch.
-* `feat/<name>`: New capabilities or visual effects.
-* `fix/<name>`: Bug fixes and performance adjustments.
+* `main`: Stable production release branch.
+* `feat/<name>`: New capabilities or visual modules.
+* `fix/<name>`: Bug fixes and edge-case corrections.
 * `docs/<name>`: Documentation, guides, and diagrams.
-* `style/<name>`: CSS animations, 3D lighting, and themes.
+* `style/<name>`: UI animations, 3D lighting, and CSS enhancements.
+* `perf/<name>`: Performance optimizations and bundle reductions.
 
 ### Conventional Commit Rules:
 ```bash
@@ -134,7 +135,7 @@ git commit -m "fix(audio): handle browser autoplay policy gracefully"
 git commit -m "docs(readme): add interactive architecture diagrams"
 ```
 
-Check out [CONTRIBUTING.md](CONTRIBUTING.md) for full instructions on opening pull requests.
+Check out [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines on opening and merging PRs.
 
 ---
 
