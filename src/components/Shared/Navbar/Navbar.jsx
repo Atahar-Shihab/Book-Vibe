@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router";
-import { BookOpen, Flame, Menu, X } from "lucide-react";
+import { BookOpen, Flame, Menu, X, Search } from "lucide-react";
 import AmbientSoundController from "../../Effects/AmbientSoundController";
 import { getReadingStreak } from "../../../utils/storage";
 
-const Navbar = () => {
+const Navbar = ({ onOpenCommand }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [streak] = useState(() => getReadingStreak());
 
@@ -51,8 +51,23 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* Right Action Tools: Audio Ambiance, Reading Streak, Sign In / Join */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Right Action Tools: Command Palette, Audio Ambiance, Reading Streak */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Quick Command Palette Button */}
+          {onOpenCommand && (
+            <button
+              onClick={onOpenCommand}
+              className="hidden md:flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-500 hover:border-violet-300 hover:bg-white hover:text-slate-800 transition shadow-xs"
+              title="Quick Search & Navigation (Ctrl+K)"
+            >
+              <Search className="h-3.5 w-3.5 text-slate-400" />
+              <span>Search</span>
+              <kbd className="rounded bg-slate-200/80 px-1.5 py-0.5 text-[10px] font-mono text-slate-600">
+                ⌘K
+              </kbd>
+            </button>
+          )}
+
           {/* Ambient Sound Controller */}
           <AmbientSoundController />
 
