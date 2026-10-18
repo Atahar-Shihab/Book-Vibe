@@ -4,6 +4,7 @@ import VirtualBookShelf from "../BookShelf/VirtualBookShelf";
 import BookFlipModal from "../BookReader/BookFlipModal";
 import BookComparatorModal from "../BookComparator/BookComparatorModal";
 import LiteraryTrivia from "./LiteraryTrivia";
+import LiteraryGalaxyExplorer from "../Galaxy/LiteraryGalaxyExplorer";
 import {
   LayoutGrid,
   Library,
@@ -294,6 +295,12 @@ const AllBooks = ({ externalSearch = "" }) => {
           onQuickRead={(b) => setSelectedBookForFlip(b)}
         />
       )}
+
+      {/* Literary Galaxy 2,700-Year Historical Timeline Explorer */}
+      <LiteraryGalaxyExplorer
+        books={books}
+        onSelectBook={(book) => setSelectedBookForFlip(book)}
+      />
 
       {/* Literary Trivia Lab Section */}
       <LiteraryTrivia />
