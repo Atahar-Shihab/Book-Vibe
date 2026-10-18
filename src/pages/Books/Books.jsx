@@ -6,7 +6,6 @@ import {
   removeFromReadList,
   removeFromWishlist,
   getBookNotes,
-  saveBookNote,
 } from "../../utils/storage";
 import { useToast } from "../../components/Shared/Toast/useToast";
 import {
@@ -24,6 +23,7 @@ import {
   Download,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
+import ScholarNotesModal from "../../components/Notes/ScholarNotesModal";
 
 const Books = () => {
   const { showToast } = useToast();
@@ -32,7 +32,6 @@ const Books = () => {
   const [readBooks, setReadBooks] = useState(() => getStoredReadList());
   const [wishlistBooks, setWishlistBooks] = useState(() => getStoredWishlist());
   const [editingNotesFor, setEditingNotesFor] = useState(null);
-  const [currentNoteText, setCurrentNoteText] = useState("");
 
   // Keep synced with global storage events
   useEffect(() => {
@@ -60,14 +59,6 @@ const Books = () => {
     e.preventDefault();
     e.stopPropagation();
     setEditingNotesFor(book);
-    setCurrentNoteText(getBookNotes(book.bookId));
-  };
-
-  const handleSaveNote = () => {
-    if (editingNotesFor) {
-      saveBookNote(editingNotesFor.bookId, currentNoteText, showToast);
-      setEditingNotesFor(null);
-    }
   };
 
   // Export Reading Journal to Markdown
@@ -365,42 +356,12 @@ const Books = () => {
         </div>
       </div>
 
-      {/* Personal Notes Modal */}
-      {editingNotesFor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl border border-slate-200">
-            <h3 className="text-lg font-serif font-bold text-slate-900">
-              Personal Reflection: {editingNotesFor.bookName}
-            </h3>
-            <p className="mt-1 text-xs text-slate-500">
-              Record your thoughts, quotes to remember, or key educational insights.
-            </p>
-
-            <textarea
-              rows={5}
-              value={currentNoteText}
-              onChange={(e) => setCurrentNoteText(e.target.value)}
-              placeholder="What did you learn from this masterpiece? Write your notes here..."
-              className="mt-4 w-full rounded-2xl border border-slate-300 p-3 text-sm text-slate-800 placeholder-slate-400 focus:border-violet-500 focus:outline-none"
-            />
-
-            <div className="mt-4 flex items-center justify-end gap-2">
-              <button
-                onClick={() => setEditingNotesFor(null)}
-                className="rounded-xl px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSaveNote}
-                className="rounded-xl bg-violet-600 px-5 py-2 text-xs font-bold text-white shadow-md hover:bg-violet-700 transition"
-              >
-                Save Notes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Scholar Notes & Journal Studio Modal */}
+      <ScholarNotesModal
+        book={editingNotesFor}
+        isOpen={Boolean(editingNotesFor)}
+        onClose={() => setEditingNotesFor(null)}
+      />
     </main>
   );
 };
