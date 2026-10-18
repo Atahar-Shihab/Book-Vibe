@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Link } from "react-router";
 import { BookOpen, Flame, Menu, X, Search } from "lucide-react";
 import AmbientSoundController from "../../Effects/AmbientSoundController";
+import ThemeSwitcher from "../../Theme/ThemeSwitcher";
 import { getReadingStreak } from "../../../utils/storage";
 
 const Navbar = ({ onOpenCommand }) => {
@@ -70,6 +71,9 @@ const Navbar = ({ onOpenCommand }) => {
 
           {/* Ambient Sound Controller */}
           <AmbientSoundController />
+
+          {/* Reading Atmosphere Theme Switcher */}
+          <ThemeSwitcher />
 
           {/* Reading Streak Badge */}
           <div
