@@ -2,7 +2,6 @@
 // Zero external mp3 dependencies - 100% self-contained & reliable
 
 let audioCtx = null;
-let ambientSource = null;
 
 function getAudioContext() {
   if (typeof window === "undefined") return null;
@@ -99,16 +98,121 @@ export function playSuccessChime() {
   }
 }
 
+let ambientGain = null;
+let ambientNodes = [];
+
 /**
- * Procedural Ambient Soundscapes (Rain or Fireplace)
+ * Adjust active ambient volume dynamically
  */
-export function startAmbientSound(type = "rain", volume = 0.25) {
+export function setAmbientVolume(vol = 0.22) {
+  try {
+    if (ambientGain && audioCtx) {
+      ambientGain.gain.setValueAtTime(Math.max(0, Math.min(1, vol)), audioCtx.currentTime);
+    }
+  } catch (e) {
+    console.debug("Set volume failed:", e);
+  }
+}
+
+/**
+ * Procedural Ambient Soundscapes (Rain, Fireplace, Binaural Alpha, Library Clock)
+ */
+export function startAmbientSound(type = "rain", volume = 0.22) {
   stopAmbientSound();
 
   try {
     const ctx = getAudioContext();
     if (!ctx) return;
 
+    ambientGain = ctx.createGain();
+    ambientGain.gain.setValueAtTime(volume, ctx.currentTime);
+    ambientGain.connect(ctx.destination);
+
+    if (type === "alpha") {
+      // 10Hz Binaural Beat for Meditative Focus (Left: 200Hz, Right: 210Hz)
+      const oscL = ctx.createOscillator();
+      const oscR = ctx.createOscillator();
+      oscL.type = "sine";
+      oscR.type = "sine";
+      oscL.frequency.setValueAtTime(200, ctx.currentTime);
+      oscR.frequency.setValueAtTime(210, ctx.currentTime);
+
+      const panL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+      const panR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+      if (panL && panR) {
+        panL.pan.setValueAtTime(-0.9, ctx.currentTime);
+        panR.pan.setValueAtTime(0.9, ctx.currentTime);
+        oscL.connect(panL);
+        oscR.connect(panR);
+        panL.connect(ambientGain);
+        panR.connect(ambientGain);
+      } else {
+        oscL.connect(ambientGain);
+        oscR.connect(ambientGain);
+      }
+
+      // Soft warm drone underneath
+      const sub = ctx.createOscillator();
+      sub.type = "sine";
+      sub.frequency.setValueAtTime(100, ctx.currentTime);
+      const subGain = ctx.createGain();
+      subGain.gain.setValueAtTime(0.3, ctx.currentTime);
+      sub.connect(subGain);
+      subGain.connect(ambientGain);
+
+      oscL.start();
+      oscR.start();
+      sub.start();
+
+      ambientNodes = [oscL, oscR, sub];
+      return;
+    }
+
+    if (type === "clock") {
+      // Antique Grandfather Clock: Tick-Tock rhythm every 1 second
+      const bufferSize = ctx.sampleRate * 2; // 2 seconds loop (tick at 0s, tock at 1s)
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+
+      // Render subtle room air floor
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.015;
+      }
+
+      // Tick pulse at index 0
+      const tickLen = Math.floor(ctx.sampleRate * 0.05);
+      for (let i = 0; i < tickLen; i++) {
+        const decay = Math.exp(-i / (ctx.sampleRate * 0.008));
+        const freq = Math.sin((2 * Math.PI * 1150 * i) / ctx.sampleRate);
+        data[i] += freq * decay * 0.85;
+      }
+
+      // Tock pulse at index 1s (halfway)
+      const tockOffset = ctx.sampleRate;
+      for (let i = 0; i < tickLen; i++) {
+        const decay = Math.exp(-i / (ctx.sampleRate * 0.009));
+        const freq = Math.sin((2 * Math.PI * 880 * i) / ctx.sampleRate);
+        data[tockOffset + i] += freq * decay * 0.75;
+      }
+
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.loop = true;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(950, ctx.currentTime);
+      filter.Q.setValueAtTime(2.0, ctx.currentTime);
+
+      source.connect(filter);
+      filter.connect(ambientGain);
+      source.start();
+
+      ambientNodes = [source];
+      return;
+    }
+
+    // Default Rain or Fireplace synthesis
     const bufferSize = ctx.sampleRate * 2;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -139,29 +243,35 @@ export function startAmbientSound(type = "rain", volume = 0.25) {
     filter.type = type === "rain" ? "lowpass" : "bandpass";
     filter.frequency.setValueAtTime(type === "rain" ? 1200 : 800, ctx.currentTime);
 
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(volume, ctx.currentTime);
-
     source.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-
+    filter.connect(ambientGain);
     source.start();
-    ambientSource = source;
+
+    ambientNodes = [source];
   } catch (e) {
     console.debug("Ambient sound start error:", e);
   }
 }
 
 export function stopAmbientSound() {
-  if (ambientSource) {
+  if (ambientNodes.length > 0) {
+    ambientNodes.forEach((node) => {
+      try {
+        if (typeof node.stop === "function") node.stop();
+        if (typeof node.disconnect === "function") node.disconnect();
+      } catch {
+        // ignore
+      }
+    });
+    ambientNodes = [];
+  }
+  if (ambientGain) {
     try {
-      ambientSource.stop();
-      ambientSource.disconnect();
+      ambientGain.disconnect();
     } catch {
       // ignore
     }
-    ambientSource = null;
+    ambientGain = null;
   }
 }
 
