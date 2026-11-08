@@ -8,7 +8,11 @@
     "totalPages": 180,
     "rating": 4.7,
     "category": "Classic",
-    "tags": ["Jazz Age", "American Dream", "Tragedy"],
+    "tags": [
+      "Jazz Age",
+      "American Dream",
+      "Tragedy"
+    ],
     "publisher": "Charles Scribner's Sons",
     "yearOfPublishing": 1925,
     "quote": "So we beat on, boats against the current, borne back ceaselessly into the past.",
@@ -26,7 +30,11 @@
     "totalPages": 281,
     "rating": 4.9,
     "category": "Fiction",
-    "tags": ["Social Justice", "Coming of Age", "Courtroom Drama"],
+    "tags": [
+      "Social Justice",
+      "Coming of Age",
+      "Courtroom Drama"
+    ],
     "publisher": "J.B. Lippincott & Co.",
     "yearOfPublishing": 1960,
     "quote": "You never really understand a person until you consider things from his point of view... until you climb into his skin and walk around in it.",
@@ -44,7 +52,11 @@
     "totalPages": 328,
     "rating": 4.8,
     "category": "Science",
-    "tags": ["Dystopian", "Political Philosophy", "Surveillance"],
+    "tags": [
+      "Dystopian",
+      "Political Philosophy",
+      "Surveillance"
+    ],
     "publisher": "Secker & Warburg",
     "yearOfPublishing": 1949,
     "quote": "War is peace. Freedom is slavery. Ignorance is strength.",
@@ -62,7 +74,11 @@
     "totalPages": 234,
     "rating": 4.3,
     "category": "Fiction",
-    "tags": ["Adolescence", "Identity", "Modern Classic"],
+    "tags": [
+      "Adolescence",
+      "Identity",
+      "Modern Classic"
+    ],
     "publisher": "Little, Brown and Company",
     "yearOfPublishing": 1951,
     "quote": "What really knocks me out is a book that, when you're all done reading it, you wish the author that wrote it were a terrific friend of yours.",
@@ -80,7 +96,11 @@
     "totalPages": 279,
     "rating": 4.8,
     "category": "Classic",
-    "tags": ["Romance", "Social Satire", "British Literature"],
+    "tags": [
+      "Romance",
+      "Social Satire",
+      "British Literature"
+    ],
     "publisher": "T. Egerton",
     "yearOfPublishing": 1813,
     "quote": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
@@ -98,7 +118,11 @@
     "totalPages": 310,
     "rating": 4.9,
     "category": "Fantasy",
-    "tags": ["High Fantasy", "Adventure", "Mythology"],
+    "tags": [
+      "High Fantasy",
+      "Adventure",
+      "Mythology"
+    ],
     "publisher": "George Allen & Unwin",
     "yearOfPublishing": 1937,
     "quote": "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole... it was a hobbit-hole, and that means comfort.",
@@ -116,7 +140,11 @@
     "totalPages": 204,
     "rating": 4.9,
     "category": "Philosophy",
-    "tags": ["Stoicism", "Self-Mastery", "Ancient Rome"],
+    "tags": [
+      "Stoicism",
+      "Self-Mastery",
+      "Ancient Rome"
+    ],
     "publisher": "Penguin Classics",
     "yearOfPublishing": 180,
     "quote": "You have power over your mind - not outside events. Realize this, and you will find strength.",
@@ -134,7 +162,11 @@
     "totalPages": 256,
     "rating": 4.8,
     "category": "Science",
-    "tags": ["Cosmology", "Physics", "Astrophysics"],
+    "tags": [
+      "Cosmology",
+      "Physics",
+      "Astrophysics"
+    ],
     "publisher": "Bantam Books",
     "yearOfPublishing": 1988,
     "quote": "Remember to look up at the stars and not down at your feet. Try to make sense of what you see and wonder about what makes the universe exist.",
@@ -152,7 +184,11 @@
     "totalPages": 177,
     "rating": 4.6,
     "category": "Philosophy",
-    "tags": ["Inspiration", "Allegory", "Destiny"],
+    "tags": [
+      "Inspiration",
+      "Allegory",
+      "Destiny"
+    ],
     "publisher": "HarperOne",
     "yearOfPublishing": 1988,
     "quote": "And, when you want something, all the universe conspires in helping you to achieve it.",
@@ -170,7 +206,11 @@
     "totalPages": 545,
     "rating": 4.9,
     "category": "Classic",
-    "tags": ["Psychological Drama", "Russian Literature", "Morality"],
+    "tags": [
+      "Psychological Drama",
+      "Russian Literature",
+      "Morality"
+    ],
     "publisher": "The Russian Messenger",
     "yearOfPublishing": 1866,
     "quote": "Pain and suffering are always inevitable for a large intelligence and a deep heart.",
@@ -188,7 +228,11 @@
     "totalPages": 443,
     "rating": 4.8,
     "category": "History",
-    "tags": ["Anthropology", "Human Evolution", "Big History"],
+    "tags": [
+      "Anthropology",
+      "Human Evolution",
+      "Big History"
+    ],
     "publisher": "Harper",
     "yearOfPublishing": 2014,
     "quote": "You could never convince a monkey to give you a banana by promising him limitless bananas after death in monkey heaven.",
@@ -206,7 +250,11 @@
     "totalPages": 280,
     "rating": 4.7,
     "category": "Classic",
-    "tags": ["Gothic Horror", "Sci-Fi Pioneer", "Philosophical"],
+    "tags": [
+      "Gothic Horror",
+      "Sci-Fi Pioneer",
+      "Philosophical"
+    ],
     "publisher": "Lackington, Hughes, Harding, Mavor & Jones",
     "yearOfPublishing": 1818,
     "quote": "Beware; for I am fearless, and therefore powerful.",
@@ -224,7 +272,11 @@
     "totalPages": 365,
     "rating": 4.9,
     "category": "Science",
-    "tags": ["Astronomy", "Cosmos", "Scientific Literacy"],
+    "tags": [
+      "Astronomy",
+      "Cosmos",
+      "Scientific Literacy"
+    ],
     "publisher": "Random House",
     "yearOfPublishing": 1980,
     "quote": "The Cosmos is all that is or ever was or ever will be. Our feeblest contemplations of the Cosmos stir us.",
@@ -242,7 +294,11 @@
     "totalPages": 384,
     "rating": 4.8,
     "category": "Classic",
-    "tags": ["Greek Epic", "Mythology", "Adventure"],
+    "tags": [
+      "Greek Epic",
+      "Mythology",
+      "Adventure"
+    ],
     "publisher": "Ancient Greece",
     "yearOfPublishing": -700,
     "quote": "There is nothing alive more agonized than man of all that breathe and crawl across the earth.",
@@ -260,7 +316,11 @@
     "totalPages": 464,
     "rating": 4.7,
     "category": "Science",
-    "tags": ["Programming", "Software Craftsmanship", "Computer Science"],
+    "tags": [
+      "Programming",
+      "Software Craftsmanship",
+      "Computer Science"
+    ],
     "publisher": "Prentice Hall",
     "yearOfPublishing": 2008,
     "quote": "Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.",
@@ -278,7 +338,11 @@
     "totalPages": 96,
     "rating": 4.9,
     "category": "Philosophy",
-    "tags": ["Fable", "Philosophical", "Heartfelt"],
+    "tags": [
+      "Fable",
+      "Philosophical",
+      "Heartfelt"
+    ],
     "publisher": "Reynal & Hitchcock",
     "yearOfPublishing": 1943,
     "quote": "It is only with the heart that one can see rightly; what is essential is invisible to the eye.",
@@ -296,7 +360,11 @@
     "totalPages": 288,
     "rating": 4.6,
     "category": "Science",
-    "tags": ["Dystopian", "Bioethics", "Philosophical"],
+    "tags": [
+      "Dystopian",
+      "Bioethics",
+      "Philosophical"
+    ],
     "publisher": "Chatto & Windus",
     "yearOfPublishing": 1932,
     "quote": "Words can be like X-rays if you use them properly -- they'll go through anything. You read and you're pierced.",
@@ -314,7 +382,11 @@
     "totalPages": 256,
     "rating": 4.8,
     "category": "Mystery",
-    "tags": ["Detective", "Sherlock Holmes", "Gothic Mystery"],
+    "tags": [
+      "Detective",
+      "Sherlock Holmes",
+      "Gothic Mystery"
+    ],
     "publisher": "George Newnes",
     "yearOfPublishing": 1902,
     "quote": "The world is full of obvious things which nobody by any chance ever observes.",
@@ -332,7 +404,11 @@
     "totalPages": 165,
     "rating": 4.9,
     "category": "Philosophy",
-    "tags": ["Psychology", "Holocaust Memoir", "Human Spirit"],
+    "tags": [
+      "Psychology",
+      "Holocaust Memoir",
+      "Human Spirit"
+    ],
     "publisher": "Beacon Press",
     "yearOfPublishing": 1946,
     "quote": "Everything can be taken from a man but one thing: the last of the human freedoms -- to choose one's attitude in any given set of circumstances.",
@@ -350,7 +426,11 @@
     "totalPages": 416,
     "rating": 4.7,
     "category": "Philosophy",
-    "tags": ["Greek Philosophy", "Justice", "Political Theory"],
+    "tags": [
+      "Greek Philosophy",
+      "Justice",
+      "Political Theory"
+    ],
     "publisher": "Classical Athens",
     "yearOfPublishing": -375,
     "quote": "The measure of a man is what he does with power.",
@@ -368,7 +448,11 @@
     "totalPages": 499,
     "rating": 4.8,
     "category": "Science",
-    "tags": ["Behavioral Economics", "Cognitive Psychology", "Neuroscience"],
+    "tags": [
+      "Behavioral Economics",
+      "Cognitive Psychology",
+      "Neuroscience"
+    ],
     "publisher": "Farrar, Straus and Giroux",
     "yearOfPublishing": 2011,
     "quote": "A reliable way to make people believe in falsehoods is frequent repetition, because familiarity is not easily distinguished from truth.",
@@ -386,7 +470,11 @@
     "totalPages": 320,
     "rating": 4.9,
     "category": "Non-Fiction",
-    "tags": ["Self Improvement", "Productivity", "Habits"],
+    "tags": [
+      "Self Improvement",
+      "Productivity",
+      "Habits"
+    ],
     "publisher": "Avery",
     "yearOfPublishing": 2018,
     "quote": "You do not rise to the level of your goals. You fall to the level of your systems.",
@@ -404,7 +492,11 @@
     "totalPages": 507,
     "rating": 4.8,
     "category": "Classic",
-    "tags": ["Gothic Romance", "Feminist Classic", "Victorian"],
+    "tags": [
+      "Gothic Romance",
+      "Feminist Classic",
+      "Victorian"
+    ],
     "publisher": "Smith, Elder & Co.",
     "yearOfPublishing": 1847,
     "quote": "I am no bird; and no net ensnares me; I am a free human being with an independent will.",
@@ -422,7 +514,11 @@
     "totalPages": 498,
     "rating": 4.6,
     "category": "History",
-    "tags": ["World History", "Geography", "Evolutionary Biology"],
+    "tags": [
+      "World History",
+      "Geography",
+      "Evolutionary Biology"
+    ],
     "publisher": "W.W. Norton & Company",
     "yearOfPublishing": 1997,
     "quote": "History followed different courses for different peoples because of differences among peoples' environments, not because of biological differences among peoples themselves.",
@@ -440,7 +536,11 @@
     "totalPages": 360,
     "rating": 4.7,
     "category": "Science",
-    "tags": ["Evolutionary Biology", "Genetics", "Memetics"],
+    "tags": [
+      "Evolutionary Biology",
+      "Genetics",
+      "Memetics"
+    ],
     "publisher": "Oxford University Press",
     "yearOfPublishing": 1976,
     "quote": "We are survival machines – robot vehicles blindly programmed to preserve the selfish molecules known as genes.",
@@ -458,7 +558,11 @@
     "totalPages": 416,
     "rating": 4.6,
     "category": "Classic",
-    "tags": ["Gothic Romance", "Revenge", "Tragedy"],
+    "tags": [
+      "Gothic Romance",
+      "Revenge",
+      "Tragedy"
+    ],
     "publisher": "Thomas Cautley Newby",
     "yearOfPublishing": 1847,
     "quote": "Whatever our souls are made of, his and mine are the same.",
@@ -476,7 +580,11 @@
     "totalPages": 423,
     "rating": 4.9,
     "category": "Fantasy",
-    "tags": ["Epic Fantasy", "High Fantasy", "Middle-earth"],
+    "tags": [
+      "Epic Fantasy",
+      "High Fantasy",
+      "Middle-earth"
+    ],
     "publisher": "George Allen & Unwin",
     "yearOfPublishing": 1954,
     "quote": "All that is gold does not glitter, not all those who wander are lost; the old that is strong does not wither, deep roots are not reached by the frost.",
@@ -494,7 +602,11 @@
     "totalPages": 352,
     "rating": 4.6,
     "category": "Philosophy",
-    "tags": ["Existentialism", "German Philosophy", "Overman"],
+    "tags": [
+      "Existentialism",
+      "German Philosophy",
+      "Overman"
+    ],
     "publisher": "Ernst Schmeitzner",
     "yearOfPublishing": 1883,
     "quote": "He who has a why to live can bear almost any how.",
@@ -512,7 +624,11 @@
     "totalPages": 316,
     "rating": 4.3,
     "category": "Mystery",
-    "tags": ["Psychological Thriller", "Unreliable Narrator", "Suspense"],
+    "tags": [
+      "Psychological Thriller",
+      "Unreliable Narrator",
+      "Suspense"
+    ],
     "publisher": "Riverhead Books",
     "yearOfPublishing": 2015,
     "quote": "There's nothing so painful or so suffocating as the feeling of not being able to believe your own mind.",
@@ -530,7 +646,11 @@
     "totalPages": 309,
     "rating": 4.9,
     "category": "Fantasy",
-    "tags": ["Magic", "Young Adult", "Friendship"],
+    "tags": [
+      "Magic",
+      "Young Adult",
+      "Friendship"
+    ],
     "publisher": "Bloomsbury",
     "yearOfPublishing": 1997,
     "quote": "It does not do to dwell on dreams and forget to live.",
@@ -538,5 +658,335 @@
     "readingTime": "7.5 hrs",
     "freeReadUrl": "https://openlibrary.org/works/OL82563W/Harry_Potter_and_the_Philosopher%27s_Stone",
     "excerpt": "Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much. They were the last people you'd expect to be involved in anything strange or mysterious, because they just didn't hold with such nonsense."
+  },
+  {
+    "bookId": 31,
+    "bookName": "Dune",
+    "author": "Frank Herbert",
+    "image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&q=80&w=800",
+    "review": "Set on the harsh desert planet of Arrakis, Dune is an unparalleled epic exploring ecology, religion, and the perilous machinations of political dynasty. Frank Herbert weaves a dense tapestry of prophecy and power as young Paul Atreides navigates betrayal to fulfill a galactic destiny. It remains one of the crowning triumphs of modern speculative literature.",
+    "totalPages": 688,
+    "rating": 4.9,
+    "category": "Fantasy",
+    "tags": [
+      "Sci-Fi",
+      "Epic",
+      "Ecology"
+    ],
+    "publisher": "Chilton Books",
+    "yearOfPublishing": 1965,
+    "quote": "I must not fear. Fear is the mind-killer. Fear is the little-death that brings total obliteration.",
+    "difficulty": "Advanced",
+    "readingTime": "17.2 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL893415W/Dune",
+    "excerpt": "A beginning is the time for taking the most delicate care that the balances are correct. This every sister of the Bene Gesserit knows."
+  },
+  {
+    "bookId": 32,
+    "bookName": "Neuromancer",
+    "author": "William Gibson",
+    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800",
+    "review": "The seminal masterwork that coined the term 'cyberspace' and founded the cyberpunk genre. Washed-up console cowboy Case is recruited for a clandestine digital heist against an unfathomably powerful corporate AI. Gibson's electric prose and neon-drenched dystopian vision continue to forecast our modern computational reality.",
+    "totalPages": 271,
+    "rating": 4.7,
+    "category": "Science",
+    "tags": [
+      "Cyberpunk",
+      "AI",
+      "Hacking"
+    ],
+    "publisher": "Ace Books",
+    "yearOfPublishing": 1984,
+    "quote": "The sky above the port was the color of television, tuned to a dead channel.",
+    "difficulty": "Intermediate",
+    "readingTime": "6.8 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL15694828W/Neuromancer",
+    "excerpt": "The sky above the port was the color of television, tuned to a dead channel. 'It's not like I'm using,' Case heard someone say, as he shouldered his way through the crowd around the door of the Chat."
+  },
+  {
+    "bookId": 33,
+    "bookName": "Project Hail Mary",
+    "author": "Andy Weir",
+    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+    "review": "Ryland Grace is the sole survivor on a desperate, last-chance mission to save humanity from an extinction-level solar crisis. Stranded light-years from Earth with amnesia, he must summon every ounce of scientific ingenuity and forge an unforgettable interspecies alliance. A gripping celebration of human curiosity and resilience.",
+    "totalPages": 496,
+    "rating": 4.9,
+    "category": "Science",
+    "tags": [
+      "Space",
+      "Survival",
+      "Friendship"
+    ],
+    "publisher": "Ballantine Books",
+    "yearOfPublishing": 2021,
+    "quote": "Human beings have a remarkable ability to accept the abnormal and make it normal.",
+    "difficulty": "Intermediate",
+    "readingTime": "12.4 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL20803450W/Project_Hail_Mary",
+    "excerpt": "'What’s two plus two?' I ask. 'Four,' I say. I wait for another voice. Nothing. It seems I am talking to myself."
+  },
+  {
+    "bookId": 34,
+    "bookName": "Fahrenheit 451",
+    "author": "Ray Bradbury",
+    "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800",
+    "review": "Guy Montag is a fireman whose job is not to extinguish flames, but to destroy the most dangerous commodity of all: printed books. Bradbury's prophetic fable depicts a conformist society numbed by shallow screen culture and censorship. An urgent, poetic testament to the sanctity of critical thought and literature.",
+    "totalPages": 249,
+    "rating": 4.8,
+    "category": "Classic",
+    "tags": [
+      "Dystopian",
+      "Freedom",
+      "Literature"
+    ],
+    "publisher": "Ballantine Books",
+    "yearOfPublishing": 1953,
+    "quote": "There must be something in books, things we can't imagine, to make a woman stay in a burning house; there must be something there.",
+    "difficulty": "Intermediate",
+    "readingTime": "6.2 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL81633W/Fahrenheit_451",
+    "excerpt": "It was a pleasure to burn. It was a special pleasure to see things eaten, to see things blackened and changed."
+  },
+  {
+    "bookId": 35,
+    "bookName": "The Silent Patient",
+    "author": "Alex Michaelides",
+    "image": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=800",
+    "review": "Alicia Berenson’s life is seemingly perfect until one evening she shoots her husband five times in the face and never speaks another word. Criminal psychotherapist Theo Faber becomes obsessed with uncovering the truth behind her impenetrable silence. A labyrinthine psychological thriller brimming with Greek tragedy motifs.",
+    "totalPages": 336,
+    "rating": 4.7,
+    "category": "Mystery",
+    "tags": [
+      "Thriller",
+      "Psychology",
+      "Twist"
+    ],
+    "publisher": "Celadon Books",
+    "yearOfPublishing": 2019,
+    "quote": "We are all made of scars, Theo. And we only heal when we stop hiding them.",
+    "difficulty": "Intermediate",
+    "readingTime": "8.4 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL19921617W/The_Silent_Patient",
+    "excerpt": "Alicia Berenson was thirty-three years old when she killed her husband. They had been married for seven years."
+  },
+  {
+    "bookId": 36,
+    "bookName": "The Name of the Wind",
+    "author": "Patrick Rothfuss",
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+    "review": "Kvothe recounts the legendary journey of his life: from an orphaned boy in a troupe of traveling players to a brilliant student at the University and the mythic sorcerer of song and shadow. Rothfuss delivers poetic worldbuilding, deeply resonant characters, and a nuanced exploration of story-making itself.",
+    "totalPages": 662,
+    "rating": 4.9,
+    "category": "Fantasy",
+    "tags": [
+      "Magic",
+      "Music",
+      "Adventure"
+    ],
+    "publisher": "DAW Books",
+    "yearOfPublishing": 2007,
+    "quote": "It was the patient, cut-flower sound of a man who is waiting to die.",
+    "difficulty": "Advanced",
+    "readingTime": "16.5 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL3424168W/The_Name_of_the_Wind",
+    "excerpt": "It was night again. The Waystone Inn lay in silence, and it was a silence of three parts."
+  },
+  {
+    "bookId": 37,
+    "bookName": "Deep Work: Rules for Focused Success",
+    "author": "Cal Newport",
+    "image": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800",
+    "review": "In an economy fragmented by constant digital distraction, Cal Newport argues that the ability to focus without interruption on cognitively demanding tasks is rapidly becoming a superpower. Blending cultural criticism with actionable frameworks, Deep Work demonstrates how to cultivate monastic focus and produce breakthrough creative output.",
+    "totalPages": 304,
+    "rating": 4.8,
+    "category": "Non-Fiction",
+    "tags": [
+      "Productivity",
+      "Focus",
+      "Habits"
+    ],
+    "publisher": "Grand Central Publishing",
+    "yearOfPublishing": 2016,
+    "quote": "To produce at your peak level you need to work for extended periods with full concentration on a single task free from distraction.",
+    "difficulty": "Beginner",
+    "readingTime": "7.6 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL17374836W/Deep_Work",
+    "excerpt": "In the Swiss canton of St. Gallen, near the northern banks of Lake Zurich, is a village named Bollingen. In 1922, the psychiatrist Carl Jung chose this spot to begin building a retreat."
+  },
+  {
+    "bookId": 38,
+    "bookName": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "image": "https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&q=80&w=800",
+    "review": "Wilde's dazzling Gothic parable examines vanity, hedonism, and moral decay. Entranced by Lord Henry Wotton’s decadent philosophy, Dorian Gray trades his soul so that his portrait ages and absorbs his sins while he preserves eternal youth. An incisive, epigrammatic critique of aestheticism and conscience.",
+    "totalPages": 254,
+    "rating": 4.7,
+    "category": "Classic",
+    "tags": [
+      "Gothic",
+      "Philosophy",
+      "Art"
+    ],
+    "publisher": "Lippincott's Monthly Magazine",
+    "yearOfPublishing": 1890,
+    "quote": "The only way to get rid of a temptation is to yield to it. Resist it, and your soul grows sick with longing.",
+    "difficulty": "Intermediate",
+    "readingTime": "6.4 hrs",
+    "freeReadUrl": "https://www.gutenberg.org/ebooks/174",
+    "excerpt": "The artist is the creator of beautiful things. To reveal art and conceal the artist is art's aim."
+  },
+  {
+    "bookId": 39,
+    "bookName": "Klara and the Sun",
+    "author": "Kazuo Ishiguro",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
+    "review": "Told from the perspective of Klara, an Artificial Friend with extraordinary observational qualities, Nobel laureate Kazuo Ishiguro examines the meaning of devotion, loneliness, and what it truly means to love in a technologically stratified near future. A tender, luminous meditation on empathy.",
+    "totalPages": 320,
+    "rating": 4.8,
+    "category": "Fiction",
+    "tags": [
+      "AI",
+      "Empathy",
+      "Future"
+    ],
+    "publisher": "Faber and Faber",
+    "yearOfPublishing": 2021,
+    "quote": "Do you believe in the human heart? I don't mean simply the organ, obviously. But do you believe there's something that makes each of us special and individual?",
+    "difficulty": "Intermediate",
+    "readingTime": "8.0 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL20803451W/Klara_and_the_Sun",
+    "excerpt": "When we were new, Rosa and I were mid-store, on the magazine table side, and could see through more than half of the window."
+  },
+  {
+    "bookId": 40,
+    "bookName": "The Metamorphosis",
+    "author": "Franz Kafka",
+    "image": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=800",
+    "review": "Gregor Samsa wakes up one morning from troubled dreams to find himself transformed into a monstrous insect-like vermin. Kafka's timeless existential novella lays bare modern alienation, familial betrayal, and the dehumanizing pressures of relentless economic labor with unforgettable psychological clarity.",
+    "totalPages": 102,
+    "rating": 4.8,
+    "category": "Philosophy",
+    "tags": [
+      "Existentialism",
+      "Surreal",
+      "Alienation"
+    ],
+    "publisher": "Kurt Wolff Verlag",
+    "yearOfPublishing": 1915,
+    "quote": "I cannot make you understand. I cannot make anyone understand what is happening inside me. I cannot even explain it to myself.",
+    "difficulty": "Intermediate",
+    "readingTime": "2.5 hrs",
+    "freeReadUrl": "https://www.gutenberg.org/ebooks/5200",
+    "excerpt": "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin."
+  },
+  {
+    "bookId": 41,
+    "bookName": "The Pragmatic Programmer",
+    "author": "Andrew Hunt & David Thomas",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800",
+    "review": "A timeless, foundational guide to software engineering craftsmanship. Hunt and Thomas unpack practical wisdom spanning DRY principles, decoupled architectures, automated testing, and career longevity. Required reading for any developer seeking to elevate coding into an enduring intellectual art.",
+    "totalPages": 352,
+    "rating": 4.9,
+    "category": "Science",
+    "tags": [
+      "Coding",
+      "Craftsmanship",
+      "Software"
+    ],
+    "publisher": "Addison-Wesley",
+    "yearOfPublishing": 1999,
+    "quote": "Don't live with broken windows. Fix bad designs, wrong decisions, and poor code when you see them.",
+    "difficulty": "Intermediate",
+    "readingTime": "8.8 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL262758W/The_Pragmatic_Programmer",
+    "excerpt": "A pragmatic programmer takes charge of their own career, and isn't afraid to admit ignorance or weakness."
+  },
+  {
+    "bookId": 42,
+    "bookName": "A Study in Scarlet",
+    "author": "Arthur Conan Doyle",
+    "image": "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&q=80&w=800",
+    "review": "The iconic novel that introduced the world to consulting detective Sherlock Holmes and Dr. John H. Watson. Investigating a baffling murder in an abandoned Brixton house with the word 'RACHE' scrawled in blood on the wall, Holmes demonstrates the intoxicating power of inductive reasoning and forensic observation.",
+    "totalPages": 188,
+    "rating": 4.7,
+    "category": "Mystery",
+    "tags": [
+      "Detective",
+      "Victorian",
+      "Deduction"
+    ],
+    "publisher": "Ward Lock & Co",
+    "yearOfPublishing": 1887,
+    "quote": "There is a scarlet thread of murder running through the colourless skein of life, and our duty is to unravel it, and isolate it, and expose every inch of it.",
+    "difficulty": "Beginner",
+    "readingTime": "4.7 hrs",
+    "freeReadUrl": "https://www.gutenberg.org/ebooks/244",
+    "excerpt": "In the year 1878 I took my degree of Doctor of Medicine of the University of London, and proceeded to Netley to go through the course prescribed for surgeons in the army."
+  },
+  {
+    "bookId": 43,
+    "bookName": "Beyond Good and Evil",
+    "author": "Friedrich Nietzsche",
+    "image": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=800",
+    "review": "Nietzsche launches an electrifying polemic dismantling conventional Western morality, dogmatic philosophy, and herd mentality. Propounding the 'will to power' and advocating for autonomous free spirits, this philosophical tour-de-force challenges every preconception regarding truth, good, and evil.",
+    "totalPages": 240,
+    "rating": 4.8,
+    "category": "Philosophy",
+    "tags": [
+      "Ethics",
+      "Critique",
+      "Will To Power"
+    ],
+    "publisher": "C. G. Naumann",
+    "yearOfPublishing": 1886,
+    "quote": "He who fights with monsters might take care lest he thereby become a monster. And if you gaze for long into an abyss, the abyss gazes also into you.",
+    "difficulty": "Advanced",
+    "readingTime": "6.0 hrs",
+    "freeReadUrl": "https://www.gutenberg.org/ebooks/4363",
+    "excerpt": "The Will to Truth, which is to tempt us to many a hazardous enterprise, the famous Truthfulness of which all philosophers have hitherto spoken with respect, what questions has this Will to Truth not laid before us!"
+  },
+  {
+    "bookId": 44,
+    "bookName": "A Game of Thrones",
+    "author": "George R.R. Martin",
+    "image": "https://images.unsplash.com/photo-1533158307587-828f0a76ef46?auto=format&fit=crop&q=80&w=800",
+    "review": "In a world where summers span decades and winter can last a lifetime, noble houses vie for supremacy over the Iron Throne of Westeros. Martin redefines high fantasy with unflinching moral ambiguity, gripping tactical maneuvering, and visceral realism that keeps readers relentlessly mesmerized.",
+    "totalPages": 835,
+    "rating": 4.9,
+    "category": "Fantasy",
+    "tags": [
+      "Dynasty",
+      "Politics",
+      "Dragons"
+    ],
+    "publisher": "Bantam Spectra",
+    "yearOfPublishing": 1996,
+    "quote": "When you play the game of thrones, you win or you die. There is no middle ground.",
+    "difficulty": "Advanced",
+    "readingTime": "20.8 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL15358691W/A_Game_of_Thrones",
+    "excerpt": "'We should start back,' Gared urged as the woods began to grow dark around them. 'The wildlings are dead.'"
+  },
+  {
+    "bookId": 45,
+    "bookName": "Zero to One",
+    "author": "Peter Thiel",
+    "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800",
+    "review": "Legendary entrepreneur Peter Thiel reveals how true innovation means moving from 0 to 1—creating something completely new rather than copying what already exists (1 to n). A thought-provoking manifesto on monopoly theory, contrarian thinking, and creating the future.",
+    "totalPages": 224,
+    "rating": 4.8,
+    "category": "Non-Fiction",
+    "tags": [
+      "Innovation",
+      "Startups",
+      "Strategy"
+    ],
+    "publisher": "Crown Business",
+    "yearOfPublishing": 2014,
+    "quote": "The best entrepreneurs know this: every great business is built on a secret that's hidden from the outside.",
+    "difficulty": "Beginner",
+    "readingTime": "5.6 hrs",
+    "freeReadUrl": "https://openlibrary.org/works/OL17070114W/Zero_to_One",
+    "excerpt": "Whenever I interview someone for a job, I like to ask this question: 'What important truth do very few people agree with you on?'"
   }
 ]

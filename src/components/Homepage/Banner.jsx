@@ -1,6 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router";
-import { Sparkles, BookOpen, Compass, Search, Volume2, ArrowRight, X, Shuffle } from "lucide-react";
+import {
+  Sparkles,
+  BookOpen,
+  Compass,
+  Search,
+  Volume2,
+  ArrowRight,
+  X,
+  Shuffle,
+  Film,
+  VideoOff,
+  Flame,
+} from "lucide-react";
 import { speakText, stopSpeaking } from "../../utils/audio";
 import TiltCard from "../Effects/TiltCard";
 
@@ -31,7 +43,10 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
   const [localSearch, setLocalSearch] = useState(searchQuery);
   const [quoteIdx, setQuoteIdx] = useState(0);
   const [isSpeakingQuote, setIsSpeakingQuote] = useState(false);
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const searchInputRef = useRef(null);
+  const videoRef = useRef(null);
 
   const currentQuote = quotes[quoteIdx];
 
@@ -77,39 +92,99 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
     }
   };
 
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (videoEnabled) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+    setVideoEnabled(!videoEnabled);
+  };
+
   return (
-    <section className="relative my-6 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 px-6 py-12 sm:px-10 sm:py-16 text-white shadow-2xl">
-      {/* 5D Cinematic Ambient Light Beams */}
-      <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-violet-600/30 blur-[130px]" />
-      <div className="pointer-events-none absolute -right-32 -bottom-32 h-96 w-96 rounded-full bg-cyan-500/25 blur-[130px]" />
-      <div className="pointer-events-none absolute left-1/3 top-10 h-72 w-72 rounded-full bg-amber-500/15 blur-[100px]" />
+    <section className="relative my-6 overflow-hidden rounded-3xl border border-slate-700/60 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 px-6 py-12 sm:px-10 sm:py-16 text-white shadow-2xl">
+      {/* 1. Cinematic Ambient Background Video Layer */}
+      {videoEnabled && (
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-1000">
+          <video
+            ref={videoRef}
+            src="/videos/hero-ambient.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setVideoLoaded(true)}
+            className={`h-full w-full object-cover transition-opacity duration-1000 ${
+              videoLoaded ? "opacity-45" : "opacity-0"
+            }`}
+          />
+          {/* Atmospheric gradient overlay mask to guarantee text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-indigo-950/80" />
+          <div className="absolute inset-0 bg-radial-gradient from-transparent via-slate-950/50 to-slate-950/90" />
+        </div>
+      )}
+
+      {/* 2. Motion Graphics: 5D Ambient Light Beams & Cosmic Orbs */}
+      <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-violet-600/30 blur-[130px] cosmic-drift" />
+      <div className="pointer-events-none absolute -right-32 -bottom-32 h-96 w-96 rounded-full bg-cyan-500/25 blur-[130px] cosmic-drift" style={{ animationDelay: "-6s" }} />
+      <div className="pointer-events-none absolute left-1/3 top-10 h-72 w-72 rounded-full bg-amber-500/20 blur-[100px] animate-pulse-glow" />
+
+      {/* Ambient Video Control Toggle in Top Right Corner */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
+        <button
+          type="button"
+          onClick={toggleVideo}
+          className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 shadow-lg"
+          title={videoEnabled ? "Pause Ambient Background Video" : "Play Ambient Background Video"}
+          aria-label="Toggle Background Video"
+        >
+          {videoEnabled ? (
+            <>
+              <Film className="h-3.5 w-3.5 text-cyan-400 animate-spin-slow" />
+              <span className="hidden sm:inline">Motion Video:</span>
+              <span className="text-emerald-400 font-bold">On</span>
+            </>
+          ) : (
+            <>
+              <VideoOff className="h-3.5 w-3.5 text-slate-400" />
+              <span className="hidden sm:inline">Motion Video:</span>
+              <span className="text-slate-400 font-bold">Paused</span>
+            </>
+          )}
+        </button>
+      </div>
 
       <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
         {/* Left Column: Headlines & Interaction */}
         <div className="lg:col-span-7">
-          {/* Eyebrow Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-950/60 px-4 py-1.5 backdrop-blur-md">
-            <Sparkles className="h-4 w-4 text-amber-400 animate-spin" style={{ animationDuration: "6s" }} />
+          {/* Eyebrow Badge with Motion Graphics */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-950/60 px-4 py-1.5 backdrop-blur-md animate-float-slow">
+            <Sparkles className="h-4 w-4 text-amber-400 animate-spin" style={{ animationDuration: "5s" }} />
             <span className="text-xs font-bold uppercase tracking-wider text-violet-200">
-              Free Open Educational Library
+              Free Open Educational Library &middot; 45 Volumes
             </span>
           </div>
 
-          {/* Majestic Hero Title */}
+          {/* Majestic Hero Title with Animated Shimmer Gradient */}
           <h1 className="mt-5 font-serif text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight">
             Books to freshen up <br />
-            <span className="bg-gradient-to-r from-amber-300 via-pink-300 to-cyan-300 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-amber-300 via-rose-300 to-cyan-300 animate-gradient-text bg-clip-text text-transparent">
               your bookshelf & mind
             </span>
           </h1>
 
           <p className="mt-5 text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
-            Explore 30 timeless masterpieces of classic literature, science, and philosophy.
+            Explore 45 timeless masterpieces spanning classic literature, science, philosophy, cyberpunk, and fantasy.
             Experience our 3D Virtual Bookshelf, audio narration, and deep educational insights.
           </p>
 
           {/* Live Search Form with Clear & Hotkey */}
-          <form onSubmit={handleSearchSubmit} className="mt-7 flex max-w-md items-center gap-2 rounded-2xl border border-white/20 bg-white/10 p-1.5 backdrop-blur-xl shadow-xl">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="mt-7 flex max-w-md items-center gap-2 rounded-2xl border border-white/20 bg-white/10 p-1.5 backdrop-blur-xl shadow-xl transition-all focus-within:border-emerald-400 focus-within:bg-white/15"
+          >
             <Search className="ml-3 h-5 w-5 text-slate-300 shrink-0" />
             <input
               ref={searchInputRef}
@@ -134,7 +209,7 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
             )}
             <button
               type="submit"
-              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2.5 text-xs font-bold text-slate-950 hover:brightness-110 transition shadow-md shrink-0"
+              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2.5 text-xs font-bold text-slate-950 hover:brightness-110 transition shadow-md shrink-0 hover:scale-102 active:scale-98"
             >
               Explore
             </button>
@@ -144,16 +219,16 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a
               href="#all-books-section"
-              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-violet-600/30 transition hover:scale-105"
+              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-violet-600/30 transition hover:scale-105 active:scale-98"
             >
               <Compass className="h-4 w-4" />
-              <span>Browse Catalog</span>
+              <span>Browse 45 Books</span>
               <ArrowRight className="h-4 w-4" />
             </a>
 
             <Link
               to="/pages-to-read"
-              className="flex items-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-slate-200 transition hover:bg-white/10"
+              className="flex items-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-slate-200 transition hover:bg-white/10 hover:scale-105"
             >
               <BookOpen className="h-4 w-4 text-cyan-400" />
               <span>Pages to Read</span>
@@ -174,7 +249,7 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
               <button
                 type="button"
                 onClick={handleShuffleQuote}
-                className="rounded-xl p-2.5 bg-white/10 text-amber-300 hover:bg-white/20 transition"
+                className="rounded-xl p-2.5 bg-white/10 text-amber-300 hover:bg-white/20 transition active:scale-90"
                 title="Shuffle Quote"
                 aria-label="Shuffle Quote"
               >
@@ -184,7 +259,7 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
               <button
                 type="button"
                 onClick={handleSpeakQuote}
-                className={`rounded-xl p-2.5 transition shrink-0 ${
+                className={`rounded-xl p-2.5 transition shrink-0 active:scale-90 ${
                   isSpeakingQuote
                     ? "bg-amber-400 text-slate-950 animate-pulse"
                     : "bg-white/10 text-amber-300 hover:bg-white/20"
@@ -198,16 +273,16 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
           </div>
         </div>
 
-        {/* Right Column: 3D Floating Book Showcase */}
+        {/* Right Column: 3D Floating Book Showcase with Specular Shine */}
         <div className="lg:col-span-5 flex justify-center">
           <TiltCard maxTilt={15} scale={1.04} className="w-full max-w-sm">
             <div
-              className="relative rounded-3xl border border-white/20 bg-gradient-to-b from-white/15 to-white/5 p-6 backdrop-blur-2xl shadow-2xl"
+              className="relative rounded-3xl border border-white/20 bg-gradient-to-b from-white/15 to-white/5 p-6 backdrop-blur-2xl shadow-2xl card-specular-shine"
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Floating Status Badges */}
               <div
-                className="absolute -top-3 -right-3 rounded-2xl border border-amber-300/40 bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-1.5 text-[11px] font-extrabold text-slate-950 shadow-xl"
+                className="absolute -top-3 -right-3 rounded-2xl border border-amber-300/40 bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-1.5 text-[11px] font-extrabold text-slate-950 shadow-xl animate-float-slow"
                 style={{ transform: "translateZ(40px)" }}
               >
                 ✨ 3D Flip Enabled
@@ -224,7 +299,9 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
               >
                 <div className="flex items-center justify-between text-[10px] text-amber-300/80 font-bold uppercase tracking-wider">
                   <span>Open Edition</span>
-                  <span>100% Free</span>
+                  <span className="flex items-center gap-1 text-emerald-400 font-bold">
+                    <Flame className="h-3 w-3" /> 45 Books
+                  </span>
                 </div>
 
                 <div className="my-auto text-center">
@@ -240,7 +317,7 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
                 </div>
 
                 <div className="border-t border-amber-500/20 pt-2 flex items-center justify-between text-[10px] text-amber-200">
-                  <span>30 Books</span>
+                  <span>45 Volumes</span>
                   <span>★ 4.8 Rating</span>
                 </div>
               </div>
@@ -250,15 +327,15 @@ const Banner = ({ onSearch, searchQuery = "" }) => {
                 className="mt-6 grid grid-cols-3 gap-2 text-center text-xs"
                 style={{ transform: "translateZ(20px)" }}
               >
-                <div className="rounded-xl bg-white/5 p-2.5">
-                  <span className="block text-base font-black text-amber-400">30+</span>
+                <div className="rounded-xl bg-white/5 p-2.5 transition hover:bg-white/10">
+                  <span className="block text-base font-black text-amber-400">45+</span>
                   <span className="text-[10px] text-slate-300 font-medium">Free Works</span>
                 </div>
-                <div className="rounded-xl bg-white/5 p-2.5">
+                <div className="rounded-xl bg-white/5 p-2.5 transition hover:bg-white/10">
                   <span className="block text-base font-black text-emerald-400">0$</span>
                   <span className="text-[10px] text-slate-300 font-medium">Cost</span>
                 </div>
-                <div className="rounded-xl bg-white/5 p-2.5">
+                <div className="rounded-xl bg-white/5 p-2.5 transition hover:bg-white/10">
                   <span className="block text-base font-black text-cyan-400">5D</span>
                   <span className="text-[10px] text-slate-300 font-medium">Cinematic</span>
                 </div>

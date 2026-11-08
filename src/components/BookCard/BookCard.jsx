@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { Star, BookOpen, Heart, CheckCircle2, Eye } from "lucide-react";
+import { Star, BookOpen, Heart, CheckCircle2, Eye, Sparkles, Clock } from "lucide-react";
 import TiltCard from "../Effects/TiltCard";
 import { useToast } from "../Shared/Toast/useToast";
 import {
@@ -12,21 +12,24 @@ import {
   getStoredWishlist,
 } from "../../utils/storage";
 
+const DEFAULT_COVER = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800";
+
 const BookCard = ({ book, onQuickRead }) => {
   const { showToast } = useToast();
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imgSrc, setImgSrc] = useState(book.image || DEFAULT_COVER);
 
   const {
     bookId,
     bookName,
     author,
-    image,
     rating,
     category,
     tags = [],
     totalPages,
     yearOfPublishing,
     difficulty,
+    readingTime,
   } = book;
 
   const [isRead, setIsRead] = useState(() =>
@@ -85,9 +88,11 @@ const BookCard = ({ book, onQuickRead }) => {
     if (onQuickRead) onQuickRead(book);
   };
 
+  const isMasterpiece = Number(rating) >= 4.9;
+
   return (
     <TiltCard maxTilt={8} scale={1.02} className="h-full">
-      <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 transition-all duration-300 hover:border-violet-300 hover:shadow-2xl hover:shadow-violet-200/50 backdrop-blur-sm">
+      <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 transition-all duration-300 hover:border-violet-300 hover:shadow-2xl hover:shadow-violet-200/50 backdrop-blur-sm card-specular-shine">
         {/* Ambient Top Glow on Hover */}
         <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-violet-400/20 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-0" />
 
@@ -98,10 +103,11 @@ const BookCard = ({ book, onQuickRead }) => {
             <div className="relative h-44 w-32 transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-rotate-2 group-hover:shadow-2xl">
               {/* Spine ridge highlight */}
               <div className="absolute inset-y-0 left-0 w-2.5 bg-gradient-to-r from-black/40 via-white/20 to-transparent z-10 rounded-l-sm" />
-              
+
               <img
-                src={image}
+                src={imgSrc}
                 alt={`Cover of ${bookName}`}
+                onError={() => setImgSrc(DEFAULT_COVER)}
                 onLoad={() => setImageLoaded(true)}
                 className={`h-full w-full rounded-r-md rounded-l-sm object-cover shadow-md transition-opacity duration-300 ${
                   imageLoaded ? "opacity-100" : "opacity-0"
@@ -128,8 +134,16 @@ const BookCard = ({ book, onQuickRead }) => {
               </span>
             )}
 
-            {/* Difficulty Badge */}
-            {difficulty && (
+            {/* Masterpiece Kinetic Badge for 4.9+ */}
+            {isMasterpiece && (
+              <span className="absolute top-3 right-3 flex items-center gap-1 rounded-full border border-amber-300/40 bg-gradient-to-r from-amber-500 to-amber-600 px-2.5 py-0.5 text-[10px] font-extrabold text-slate-950 shadow-md animate-pulse-glow">
+                <Sparkles className="h-3 w-3 text-slate-950" />
+                <span>Top Pick</span>
+              </span>
+            )}
+
+            {/* Difficulty Badge (if not masterpiece to prevent overlap) */}
+            {!isMasterpiece && difficulty && (
               <span className="absolute top-3 right-3 rounded-full bg-slate-900/70 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm">
                 {difficulty}
               </span>
@@ -170,11 +184,20 @@ const BookCard = ({ book, onQuickRead }) => {
             By <span className="font-semibold text-slate-700">{author}</span>
           </p>
 
-          {/* Metadata: Pages & Year */}
-          <div className="mt-3 flex items-center gap-3 text-xs text-slate-400">
-            <span>{totalPages} pages</span>
-            <span>•</span>
-            <span>{yearOfPublishing > 0 ? yearOfPublishing : `${Math.abs(yearOfPublishing)} BC`}</span>
+          {/* Metadata: Pages, Year & Reading Time */}
+          <div className="mt-3 flex items-center justify-between text-xs text-slate-400">
+            <div className="flex items-center gap-2">
+              <span>{totalPages} pages</span>
+              <span>•</span>
+              <span>{yearOfPublishing > 0 ? yearOfPublishing : `${Math.abs(yearOfPublishing)} BC`}</span>
+            </div>
+
+            {readingTime && (
+              <div className="flex items-center gap-1 text-[11px] text-slate-500">
+                <Clock className="h-3 w-3 text-cyan-500" />
+                <span>{readingTime}</span>
+              </div>
+            )}
           </div>
         </div>
 
