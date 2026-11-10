@@ -18,17 +18,17 @@ const GithubIcon = ({ className = "h-4 w-4" }) => (
 
 const Footer = () => {
   return (
-    <footer className="relative mt-20 border-t border-slate-200 bg-slate-900 text-slate-300">
+    <footer className="relative mt-20 border-t border-slate-200 dark:border-slate-800 bg-slate-900 dark:bg-slate-950 text-slate-300">
       <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Info */}
           <div>
             <div className="flex items-center gap-2.5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#23BE0A] to-teal-400 text-white shadow-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-lg">
                 <BookOpen className="h-5 w-5" />
               </div>
               <span className="font-serif text-2xl font-black text-white">
-                Book<span className="text-[#23BE0A]">Vibe</span>
+                Book<span className="text-emerald-400">Vibe</span>
               </span>
             </div>
 
@@ -50,25 +50,29 @@ const Footer = () => {
             <h4 className="text-sm font-bold uppercase tracking-wider text-white">
               Navigation
             </h4>
-            <ul className="mt-4 space-y-2 text-xs">
+            <ul className="mt-4 space-y-2.5 text-xs">
               <li>
-                <Link to="/" className="hover:text-emerald-400 transition">
-                  • Classic Book Catalog
+                <Link to="/" className="hover:text-emerald-400 transition flex items-center gap-1.5">
+                  <span className="text-emerald-500">•</span>
+                  <span>Classic Book Catalog</span>
                 </Link>
               </li>
               <li>
-                <Link to="/books" className="hover:text-emerald-400 transition">
-                  • Listed Books & Wishlist
+                <Link to="/books" className="hover:text-emerald-400 transition flex items-center gap-1.5">
+                  <span className="text-emerald-500">•</span>
+                  <span>Listed Books & Wishlist</span>
                 </Link>
               </li>
               <li>
-                <Link to="/pages-to-read" className="hover:text-emerald-400 transition">
-                  • Pages to Read Analytics
+                <Link to="/pages-to-read" className="hover:text-emerald-400 transition flex items-center gap-1.5">
+                  <span className="text-emerald-500">•</span>
+                  <span>Pages to Read Analytics</span>
                 </Link>
               </li>
               <li>
-                <a href="#all-books-section" className="hover:text-emerald-400 transition">
-                  • 3D Virtual Bookshelf
+                <a href="#all-books-section" className="hover:text-emerald-400 transition flex items-center gap-1.5">
+                  <span className="text-emerald-500">•</span>
+                  <span>3D Virtual Bookshelf</span>
                 </a>
               </li>
             </ul>
@@ -79,16 +83,17 @@ const Footer = () => {
             <h4 className="text-sm font-bold uppercase tracking-wider text-white">
               Public Domain Partners
             </h4>
-            <ul className="mt-4 space-y-2 text-xs">
+            <ul className="mt-4 space-y-2.5 text-xs">
               <li>
                 <a
                   href="https://www.gutenberg.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-emerald-400 transition"
+                  className="flex items-center gap-1.5 hover:text-emerald-400 transition"
                 >
+                  <span className="text-emerald-500">•</span>
                   <span>Project Gutenberg</span>
-                  <ExternalLink className="h-3 w-3 opacity-60" />
+                  <ExternalLink className="h-3 w-3 opacity-60 ml-auto" />
                 </a>
               </li>
               <li>
@@ -96,10 +101,11 @@ const Footer = () => {
                   href="https://openlibrary.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-emerald-400 transition"
+                  className="flex items-center gap-1.5 hover:text-emerald-400 transition"
                 >
+                  <span className="text-emerald-500">•</span>
                   <span>Open Library</span>
-                  <ExternalLink className="h-3 w-3 opacity-60" />
+                  <ExternalLink className="h-3 w-3 opacity-60 ml-auto" />
                 </a>
               </li>
               <li>
@@ -107,10 +113,11 @@ const Footer = () => {
                   href="https://standardebooks.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-emerald-400 transition"
+                  className="flex items-center gap-1.5 hover:text-emerald-400 transition"
                 >
+                  <span className="text-emerald-500">•</span>
                   <span>Standard Ebooks</span>
-                  <ExternalLink className="h-3 w-3 opacity-60" />
+                  <ExternalLink className="h-3 w-3 opacity-60 ml-auto" />
                 </a>
               </li>
               <li>
@@ -118,10 +125,11 @@ const Footer = () => {
                   href="https://archive.org/details/texts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-emerald-400 transition"
+                  className="flex items-center gap-1.5 hover:text-emerald-400 transition"
                 >
-                  <span>Internet Archive Books</span>
-                  <ExternalLink className="h-3 w-3 opacity-60" />
+                  <span className="text-emerald-500">•</span>
+                  <span>Internet Archive</span>
+                  <ExternalLink className="h-3 w-3 opacity-60 ml-auto" />
                 </a>
               </li>
             </ul>
@@ -142,7 +150,7 @@ const Footer = () => {
               href="https://github.com/Atahar-Shihab/Book-Vibe"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-slate-800 hover:bg-slate-700 px-4 py-2.5 text-xs font-bold text-white transition border border-slate-700 shadow-sm"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-slate-800 hover:bg-slate-700 px-4 py-2.5 text-xs font-bold text-white transition border border-slate-700 shadow-xs"
             >
               <GitPullRequest className="h-4 w-4 text-emerald-400" />
               <span>GitHub Repository</span>
@@ -153,7 +161,7 @@ const Footer = () => {
         {/* Bottom Credits & Copyright */}
         <div className="mt-12 border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} Book Vibe. Built with passion for open education & literature.</p>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <span>Crafted with</span>
             <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" />
             <span>& 3D Web Magic</span>
