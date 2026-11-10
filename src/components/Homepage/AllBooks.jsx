@@ -17,7 +17,7 @@ import {
   Clock,
   ArrowRightLeft,
   X,
-  SlidersHorizontal,
+  RotateCcw,
 } from "lucide-react";
 
 const categories = [

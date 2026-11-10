@@ -28,7 +28,6 @@ const BookCard = ({ book, onQuickRead }) => {
     tags = [],
     totalPages,
     yearOfPublishing,
-    difficulty,
     readingTime,
   } = book;
 

@@ -17,7 +17,6 @@ import {
   Clock,
   Compass,
   FileText,
-  Bookmark,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
 import BookFlipModal from "../../components/BookReader/BookFlipModal";

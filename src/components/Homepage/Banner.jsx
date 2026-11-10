@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router";
 import {
-  Sparkles,
   BookOpen,
   Compass,
   Search,
@@ -12,7 +11,6 @@ import {
   Film,
   VideoOff,
   Flame,
-  Award,
 } from "lucide-react";
 import { speakText, stopSpeaking } from "../../utils/audio";
 import TiltCard from "../Effects/TiltCard";

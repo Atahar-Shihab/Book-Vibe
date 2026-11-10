@@ -21,7 +21,6 @@ import {
   Sparkles,
   RotateCcw,
   Download,
-  CheckCircle2,
 } from "lucide-react";
 import TiltCard from "../../components/Effects/TiltCard";
 import ScholarNotesModal from "../../components/Notes/ScholarNotesModal";
